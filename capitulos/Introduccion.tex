@@ -1,0 +1,44 @@
+\chapter{Introducción}
+
+Este Trabajo de Fin de Grado se enfoca en el estudio y análisis de muestras de malware reales mediante el uso de técnicas de ingeniería inversa para comprender su funcionamiento y, de esta forma, ser capaces de identificar vulnerabilidades y corregirlas para evitar ser explotadas por agentes maliciosos. El objetivo es demostrar como se realizaría dicho análisis mediante técnicas tanto estáticas como dinámicas a un nivel relativamente profundo, yendo más allá de la simple identificación del malware como podría realizar el uso de un software antivirus, si no además ser capaces de estudiar el código encontrado, que en su mayoría se encuentra ofuscado o encriptado para complicar su estudio.\\\\
+El esfuerzo realizado por desarrolladores de malware para dificultar y complicar su análisis es prueba de la importancia de esta tarea, y de como ser capaces de comprender los mecanismos internos puede resultar vital para defendernos de un posible ataque.\\\\
+
+\section{Motivación}
+
+Desde brechas y vulnerabilidades en empresas que contienen información delicada, ataques a menor escala a usuarios, y hasta elementos de seguridad en operaciones militares y de inteligencia a nivel internacional, la ciberseguridad se ha convertido en un elemento clave que afecta a la vida de las personas en gran escala y que a menudo resulta en un campo 
+muy especializado y a veces ignorado a nivel corporativo.\\\\
+En estos últimos años, y en parte como consecuencia del confinamiento provocado por el covid-19 y el boom tecnológico que ha conllevado, incluyendo los rápidos avances en inteligencia artificial, los ciberataques detectados han llegado a las cifras de mas de 2000 al día en el año 2025, según reportan fuentes como Demandsage\cite{DemandSage} y Astra Security\cite{AstraSecurity}, o de hasta 600 millones al día según estima Microsoft usando una definición más laxa de lo que se pueda considerar un ciberataque. En cualquier caso, las perdidas por ciberataques ascendieron a los dieciséis mil millones de dólares en el año 2024, según reporta el FBI en su informe\cite{FBIReport}.\\\\
+El análisis de malware es un campo muy amplio en el que las técnicas y herramientas usadas para detectar y analizar malware quedan obsoletas y superadas tan frecuentemente por avances de agentes maliciosos como los profesionales de ciberseguridad crean nuevos métodos de detección y análisis. Es un campo en constante cambio en el que la capacidad de adaptación es clave. Por esto, establecer una base que pueda servir para todo tipo de malware es complicado, y estudiar el estado actual de los ataques informáticos es especialmente importante. Aunque entender el funcionamiento del malware más moderno puede ser la parte más importante en la práctica a la hora de enfrentar y prevenir ataques informáticos, y a lo largo de este trabajo realizaremos análisis sobre virus actuales detectados recientemente, muchos de los métodos usados al realizar ingeniería inversa sobre un software detectado como malicioso son conocidos y muy similares a los usados desde hace décadas, aunque las herramientas de las que disponemos hoy en día son más avanzadas y facilitan el proceso que anteriormente podría resultar más tedioso y complicado.\\\\
+De esta forma, se pretende demostrar como mediante técnicas de ingeniería inversa y el uso de herramientas modernas se puede lograr obtener un alto nivel de compresión del malware encontrado en la red.
+
+
+% 1 https://www.demandsage.com/cybersecurity-statistics/
+% 2https://www.getastra.com/blog/security-audit/cyber-security-statistics/
+% 3 https://www.ic3.gov/AnnualReport/Reports/2024_IC3Report.pdf
+
+\section{Objetivos}
+Este trabajo tiene como objetivo demostrar el uso de herramientas de ingeniería inversa y analizar muestras reales de malware detectado online. Para llevar esto a cabo el proyecto se estructura en las siguientes partes:\\\\
+
+\begin{tabular}{| m{4cm} | m{8cm} |}
+\hline
+Obtención & Encontrar muestras de malware para su análisis, generalmente en sitios que los recopilen como Malware Bazaar \\ \hline
+Identificación & Se identifica la muestra, que puede estar ya previamente documentado en el sitio.\\ \hline
+Análisis estático & Se analiza la muestra sin llegar a ejecutarla. Dependiendo del malware y las técnicas usadas por el desarrollador esto puede no ser factible\\
+\hline
+Análisis dinámico & Se ejecuta el malware en un entorno cerrado y seguro y se estudia su ejecución\\ 
+\hline
+\end{tabular}\\\\
+
+Esto nos permite dividir el proyecto en las siguientes secciones:\\
+
+\begin{tabular}{| m{4cm} | m{8cm} |}
+\hline
+Herramientas & Descripción de las herramientas usadas a lo largo del proyecto\\
+\hline
+Familias de Malware & Información sobre las familias de malware a las que pertenecen las muestras analizadas y las más relevantes en el panorama actual\\
+\hline
+Análisis práctico & Pasos seguidos, estudio y técnicas empleadas en el análisis práctico\\
+\hline
+Prevención y defensa & Conclusiones y recomendaciones para evitar ataques.\\
+\hline
+\end{tabular}\\\\

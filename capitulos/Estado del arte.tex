@@ -1,0 +1,260 @@
+\chapter{Estado del arte}
+
+\section{Herramientas}
+\subsection{IDA}
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=10cm]{imagenes/LogoIDA.png}
+	\caption{Logo de IDA Pro}
+	\label{fig:LogoIDA}
+\end{figure}
+
+Interactive Disassembler, más conocido como IDA, es un desensamblador empleado para la ingeniería inversa, y el estándar actual de la industria.\\Originalmente creado por Ilfak Guilfanov y distribuido como shareware, fue adquirido en 1996 por la empresa belga DataRescue, que la comenzó a comercializar bajo el nombre de IDA Pro, aunque también mantiene una versión gratuita con menos capacidades llamada IDA Free, que usaremos en este proyecto.\\\\
+IDA permite generar el código ensamblador a partir del código máquina de gran número de formatos de ejecutables para diferentes procesadores, además de actuar como debugger para ejecutables de Windows PE, Linux ELF y MacOs X Mach-O.\\La misma compañía ofrece además un plug-in descompilador que genera una representación del código fuente de alto nivel de tipo C, aunque este se vende por un cargo adicional.\\\\
+La principal y más importante característica de IDA es su capacidad poblar el código máquina desensamblado de información, detectando estructuras comunes, funciones y llamadas a APIs comunes. Debido a la naturaleza del desensamblado de código sin embargo, el resultado esta lejos de quedar perfecto y requiere de interacción humana para estudiar el código resultante hasta convertirlo en un resultado legible y comprensible.\\\\El énfasis en la interacción y la potente interfaz que facilita este proceso es sin embargo su mayor ventaja, y lo que lo ha convertido en el estándar de-facto en la industria.\\\\
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=10cm]{imagenes/InterfazIDA.png}
+	\caption{Interfaz de IDA}
+	\label{fig:InterfazIDA}
+\end{figure}
+
+IDA además presenta un lenguaje de scripting para la creación de plugins como el ya mencionado descompilador que ofrece la propia compañía, por lo que su funcionamiento se ve ampliado, especialmente al ser la herramienta más popular del mercado.\\\\
+
+\subsection{Ghidra}
+
+Ghidra se presenta como el principal competidor de IDA como herramienta de ingeniería inversa. Desarrollada por la Agencia de Seguridad Nacional (NSA) de los Estados Unidos y de código abierto, tiene una funcionalidad similar a IDA además de incorporar una herramienta de descompilador similar al plugin de pago ofrecido por IDA.\\\\
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=10cm]{imagenes/GhidraLogo.png}
+	\caption{Logo de Ghidra}
+	\label{fig:LogoGhidra}
+\end{figure}
+
+La NSA hizo público su código fuente en 2019, aunque se sospecha que la herramienta existe y ha sido usada por el gobierno de los Estados Unidos desde al menos 1999.\\\\
+Al igual que IDA, permite el uso de plugins desarrollados en Java o Python. Esto, combinado con el hecho de ser código libre, lo convierte no solo en una alternativa gratuita a IDA Pro, si no en un auténtico competidor. Muchos de los plugins desarrollados para IDA también están disponibles para Ghidra y viceversa, aunque la exclusividad de alguno de ellos podría ser el factor determinante a la hora de escoger una herramienta u otra.\\\\
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=10cm]{imagenes/InterfazGhidra.png}
+	\caption{Interfaz de Ghidra}
+	\label{fig:InterfazGhidra}
+\end{figure}
+
+
+\subsection{x64dbg}
+
+x64dbg, y análogamente, x32dbg, es una herramienta de código abierto para el debugging de aplicaciones de windows de 64 y 32 bits respectivamente. Actua como el sucesor espiritual de la aplicación Ollydbg, anteriormente el principal debugger usado para aplicaciones de windows.\\\\
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=10cm]{imagenes/interfazXdbg.png}
+	\caption{Interfaz de x64dbg}
+	\label{fig:InterfazXdbg}
+\end{figure}
+
+Es uno de los debuggers más populares para analizar dinamicamente aplicaciones de windows, y aunque tanto IDA como Ghidra poseen debuggers propios por defecto, ambos tienen plugins para sincronizar el uso de x64dbg con su ejecución y usarlo como el debugger para análisis dinámico.\\\\
+Otra funcionalidad especialmente interesante es la capacidad de "engancharse" a procesos y programas del sistema de windows e interrumpir y debuggear su ejecución cuando son invocados.
+
+\subsection{scdbg}
+
+Scdbg es un debugger basado en la librerías de emulación de libemu, y especializado en el debugging de shellcode; código máquina generalmente carente de encabezados para minimizar su tamaño y pensados para ser cargados directamente en ejecución.\\\\
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=10cm]{imagenes/InterfazScdbg.png}
+	\caption{Interfaz gráfica de scdbg}
+	\label{fig:InterfazScdbg}
+\end{figure}
+
+Lejos de tener una interfaz especialmente amigable, y originalmente diseñado como una aplicación de consola, tiene utilidades muy interesantes para el análisis de código ejecutable de tamaño reducido. Al estar basado en libemu, no ejecuta el código potencialmente maliciosa si no que simplemente simula su ejecución y detecta las llamadas a APIs de windows a través de códigos de operación binario.\\\\ 
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=10cm]{imagenes/InterfazScdbg2.png}
+	\caption{Ejecución de scdbg}
+	\label{fig:InterfazScdbg2}
+\end{figure}
+
+Algunas de las utilidades que incluye son, la detección automática de puntos de entrada en el código, la creación de dumps de memoria, útil para código encriptado que se desencripta en ejecución y monitorización de lectura y escritura en librerías DLL.\\\\
+
+\subsection{ANY.RUN}
+
+ANY.RUN es un compañía de ciberseguridad que proporciona múltiples herramientas de análisis. De entre ellas, el principal es el servicio de entornos cerrados interactivos o sandboxes.
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=10cm]{imagenes/Anyrun.png}
+	\caption{Sandbox de ANY.RUN}
+	\label{fig:ANY.RUN}
+\end{figure}
+
+ANY.RUN permite la rápida configuración de una maquina virtual y la ejecución interactiva de archivos subidos por el usuario, a la que vez que registra y documenta cualquier cambio producido en el sistema. Los informes incluyen cambios como la creación y escritura o modificación de archivos, cambios en las claves de registro, y cualquier llamada que se realice a través de la red, monitorizandolo como se podría hacer mediante el uso de aplicaciones de red como Wireshark en un entorno privado y de manera manual.\\\\
+La velocidad, facilidad y profundidad de los informes producidos de manera automática, sumados a la seguridad de ejecutar el malware en un sistema ajeno alojado en la nube, convierten este servicio en una de las herramientas más eficientes para realizar un análisis rápido de las consecuencias que ejecutar un malware podría tener en el equipo.
+
+\subsection{Didier Stevens Suite}
+
+Didier Stevens es un profesional de investigación de la  ciberseguridad, galardonado con reconocimientos por parte Microsoft y el SANS Institute. A lo largo de los años ha creado diversas herramientas que el mismo proporciona con código abierto en su totalidad en la suite de herramientas.\\\\
+
+La mayoría de esta suite esta compuesta de utilidades en formas de scripts que automatizan tareas como la desencriptación te textos mediante encriptación XOR, el análisis y dumpeado de metadatos en documentos de texto o excel, o incluso herramientas que crackean documentos  de Microsoft Office protegidos por contraseñas.\\\\
+
+Aunque no sea técnicamente una herramienta, el blog del propio Didier Stevens documenta y ejemplifica el uso de la gran mayoría de herramientas además de contener gran variedad información útil del campo de la ciberseguridad.\\\\
+
+\subsection{Detect It Easy}
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=10cm]{imagenes/DIEGUI.jpg}
+	\caption{Interfaz de la aplicación DIE}
+	\label{fig:DIEGUI}
+\end{figure}
+
+Detect It Easy o DIE es una aplicación de sencillo uso que escanea los metadatos de un ejecutable para mostrar tanta información como sea posible sobre su empaquetado, compilación y arquitectura. Es la mejor alternativa actual al ya abandonado y clásico programa \textbf{PeID}. 
+
+
+\section{Malware}
+
+\subsection{Tipos de malware}
+
+Aunque los tipos de malware tienden a solaparse y un mismo malware puede tener las funcionalidades de varios de estos tipos, generalmente se pueden clasificar en los siguientes tipos según su objetivo y comportamiento:
+
+\begin{itemize}
+    \item \textbf{Loader/Droppers}: Infectan el equipo para descargar e instalar otros tipos de malware.
+    \item \textbf{Ransomware}: Encriptan la información del equipo pidiendo un rescate a cambio de la clave de desencriptación.
+    \item \textbf{Troyano}: Malware camuflado como una aplicación de confianza que instala o ejecuta código dañino.
+    \item \textbf{RATs} o \textbf{Remote Access Trojans}: Troyanos que instalan una aplicación de control remoto en el equipo.
+    \item \textbf{Botnets}: Convierten sistemas conectados a internet ( generalmente dispositivos conectados al IoT o Internet de las cosas) en dispositivos controlados remotamente con el objetivo de ser usados masivamente en ataques como los DDOS o de denegación de servicio.
+    \item \textbf{Stealers}: Roban datos importantes, usualmente bancarios, a través de herramientas como los capturadores de pantalla, keyloggers o servidores FTP.
+\end{itemize}
+
+\subsection{Familias de Malware}
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=10cm]{imagenes/FamiliasOverall}
+	\caption{Gráfica mostrando las familias de malware más comúnmente detectadas en Malware Bazaar\cite{malware_bazaar_statistics}}
+	\label{fig:familias_overall}
+\end{figure}
+
+Partiendo de los datos que podemos obtener de la plataforma \textit{Malware Bazaar}, podemos obtener una lista de las familias de malware más comúnmente detectadas (Figura \ref{fig:familias_overall}). Es importante tener en cuenta que las posiciones dentro de esta lista tienden a cambiar rápidamente, pues una campaña a gran escala puede añadir un enorme número de detecciones a una familia concreta elevando su posición hasta que se realice y detecte una nueva campaña a gran escala por parte de otra de estas familias. Además, como podemos comprobar en los datos en la figura \ref{fig:malware_by_year}, proporcionados por el Instituto de de Seguridad-IT Independiente de Magdeburg, Alemania, la naturaleza creciente de las tecnologías de información, el número de usuarios en la red, las capacidades para transmitir y e infectar equipos y las habilidades para detectar el malware, cada campaña a gran escala tiende a ser mayor que la anterior. Es destacable el pico en el año 2021, debido al confinamiento y el consecuente disparo de las interacciones online, que se vieron relajadas en los años posteriores aunque manteniendo las cifras de los años inmediatamente anteriores a ese año.\\\\
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=10cm]{imagenes/MalwareByYear}
+	\caption{Número de nuevas detecciones de malware por año.\cite{AV-ATLAS_statistics}}
+	\label{fig:malware_by_year}
+\end{figure}
+
+\subsubsection{Emotet/Heodo/Geodo}
+
+La familia de malware conocida como\textbf{Emotet}, \textbf{Heodo} o \textbf{Geodo} es un downloader que se encarga de la fase inicial (Acceso) de la infección de un equipo. El malware se ejecuta a través de un medio que intenta parecer innocuo, como un archivo de excel o un pdf, pero que contiene código ejecutable en macros o plugins capaz de instalarse y descargar módulos más complejos. \textbf{Emotet} es un malware con capacidades increíblemente amplias debido a su naturaleza modular, que le permite descargar e instalar módulos y payloads de una colección en constante crecimiento. Además, el código de este malware es polimórfico, encriptado y ofuscado de manera distinta en cada versión del mismo de manera que la mayoría de antivirus son incapaces de detectarlo.\\\\
+Previamente, \textbf{Emotet} actuaba como un malware como servicio (MaS), vendido en la red oscura y grupos de chat en plataformas como Telegram para cualquiera que pagase su precio, pero debido a una intervención por parte del EUROPOL y el FBI contra un grupo de administradores de redes de botnet infectados por \textbf{Emotet} y algunos de los desarrolladores en 2021, sus acciones se vieron detenidas y la importancia de este virus cayó ligeramente en el olvido. Recientemente, sin embargo, su actividad ha resurgido siendo distribuido únicamente ha personas y grupos de confianza cercanos a los desarrolladores, principalmente grupos criminales rusos.\\\\
+
+\subsubsection{Agent Tesla}
+
+Agent Tesla es una familia de malware de tipo RAT o Remote Access Trojan, escritos en .NET y que hace objetivo a usuarios de Windows. Entre sus funcionalidades se encuentra actuar como keylogger, capturador de pantalla y servidor ftp para descargar cualquier archivo con información importante o subir otros archivos infectados. Posee también la capacidad de obtener persistencia e infectar otros equipos en la red del sistema infectado compartiendo archivos o a través de vulnerabilidades en la configuración de la red.\\\\
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=10cm]{imagenes/TeslaPrices.png}
+	\caption{Captura de la página de agenttesla.com antes de ser eliminada}
+	\label{fig:tesla-prices}
+\end{figure}
+
+Al igual que Emotet previamente, se vende como un MaS con un sistema de subscripción \ref{fig:tesla-prices}, aunque en este caso su creador la vendía públicamente en el sitio web agenttesla.com como un monitor de ordenadores para empresas, en lugar de abiertamente como un malware, pese a que el programa tenía funciones como las de obtener persistencia y evasión de detección y análisis. Tras el cierre de la página web en 2018, alegando que su aplicación se estaba usando indebidamente como un malware (uso indebido del cual su creador no se hace responsable), este malware se ha seguido comercializando menos abiertamente en grupos anónimos.\\\\
+
+\subsubsection{Qbot}
+
+\textbf{Qbot}, también conocido como \textbf{Qakbot} o \textbf{Pinkslipbot}, fue originalmente un malware principalmente usado como troyano bancario en 2008, aunque actualmente incluye múltiples funcionalidades más propias de un \textbf{RAT}. Pese a ser una familia de malware que ha existido desde hace varias años, ha cobrado mayor importancia recientemente, después de varias campañas de ataques en 2020 y 2023. Al igual que los vistos anteriormente, su principal método de infección es a través de ataques de phishing, en el caso de Qbot de manera más sofisticada, pues una de las principales funciones que realiza una vez infectado un equipo es buscar en las cuentas de correo electrónico cadenas de mensajes, generalmente corporativas, donde es común mandar y recibir documentos de texto o archivos de hojas de datos, e incorporarse a estas cadenas fingiendo ser un correo legitimo del usuario infectado, como el visto en la figura \ref{fig:Qbot_mail}, con la esperanza de que otro equipo abra y ejecute un archivo dañino como los vistos anteriormente. Es frecuente también que sea instalado como malware de segunda fase por un Loader como el ya visto anteriormente \textbf{Emotet}.\\\\
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=11cm]{imagenes/QbotMail.jpeg}
+	\caption{E-mail creado por Qbot\cite{Unit42_Paloalto}}
+	\label{fig:Qbot_mail}
+\end{figure}
+
+A la hora de detectar y analizar este malware, Qbot posee múltiples herramientas que dificultan esta tarea. Para evitar la detección de librerías y módulos comúnmente usadas por malware y que los antivirus detectaran, Qbot hace uso tablas de importación dinámicas. Todas las cadenas del programa se encuentran encriptadas y son solo desencriptadas en tiempo de ejecución. El programa se desencripta y ejecuta en varias fases, siendo la tarea de la primera de ellas detectar si se están ejecutando programas de antivirus, haciendo uso de una extensa lista de antivirus populares y comparándolos con los procesos en ejecución. Esta misma fase trata también de detectar si el malware se esta ejecutando en una maquina virtual o de si esta intentado ser analizado. Algunos de los métodos que usa para ello son:
+\begin{itemize}
+    \item Hacer uso de la instrucción CPUID y comprobar el sistema sobre el que se ejecuta el equipo
+    \item Comprobar los puertos de comunicación y compararlos con los usados por defecto por maquinas virtuales
+    \item Comprobar claves de registro
+    \item Comprobar aplicaciones instaladas o en ejecución, por ejemplo  \textbf{Wireshark} o \textbf{IDA}.
+    \item Comprobar si el ejecutable ha sido renombrado
+\end{itemize}
+
+
+\subsubsection{Mirai}
+
+\textbf{Mirai} es un malware de tipo botnet cuyo objetivo es infectar dispositivos del llamado Internet de las Cosas (IoT o Internet of Things en ingles) como cámaras IP, routers y otros sistemas embebidos de linux.\\\\
+El malware fue creado inicialmente con el propósito de usarse contra servidores del videojuego \textit{Minecraft} y servicios dedicados a proteger estos servidores de ataques DDoS, creando una red de extorsión contra estos servicios. Los autores del mismo publicaron el código del malware en el sitio web \textit{Hack Forums} distribuyéndolo como código abierto y desde entonces ha sido explotado y usado en algunas de las campañas de ataques de DDoS más grandes hasta la fecha, como el ataque contra Dyn, un proveedor DNS en octubre de 2016.\\\\
+
+\begin{figure}[htb]
+	\includegraphics[width=10cm]{imagenes/camaraIP.jpg}
+	\caption{Las cámaras inalámbricas son el principal objetivo del malware Mirai}
+	\label{fig:CamaraIP}
+\end{figure}
+
+El funcionamiento del malware se puede resumir de la siguiente manera:\\\\
+\begin{itemize}
+    \item Un dispositivo infectado por \textbf{Mirai} escanea constantemente la red en busca de otros dispositivos IoT que infectar. El software incluye una tabla de direcciones IP hardcodeada que no debe escanear e infectar, entre las que se incluyen direcciones privadas del sistema postal de los Estados Unidos de América y el Departamento de Defensa, con la intención de mantenerse como una amenaza de baja prioridad para el gobierno.
+    \item Una vez identifica un dispositivo IoT, usa una tabla de valores por defectos para el usuario y contraseño y otras vulnerabilidades para obtener acceso e infectarlo.
+    \item Mirai identifica malware infectando el dispositivo y lo elimina, obteniendo monopolio en el dispositivo y evitando que el dispositivo trabaje de manera más notablemente lenta al estar infectado por múltiples virus y el usuario se percate y tome medidas. Después bloquea los puertos de administración remota.
+    \item El dispositivo entra en un estado de espera monitorizando un servidor de comando y control, hasta que sea usado para atacar un objetivo en un ataque de DDoS.
+    \item Si el sistema es reiniciado el malware es eliminado. Sin embargo, si las claves por defecto no han sido modificados el dispositivo volverá a ser infectado en cuestión de minutos tras el reinicio.
+\end{itemize}
+
+La versión original de Mirai ha sido modificada y actualmente las variantes basadas en la versión original del malware suelen ser de las más reportadas diariamente.\\\\
+Los creadores de la versión original del malware fueron identificados en diciembre de 2017, y condenados a trabajos comunitarios sin encarcelamiento donde asistieron al gobierno con investigaciones de ciberseguridad.\\\\
+
+\subsubsection{Formbook}
+
+\textbf{Formbook} es un stealer parecido al mencionado anteriormente, \textbf{Agent Tesla}. Al igual que este, se oferta como un MaaS en foros poco conocidos y es popularmente usado en campañas de phishing contra empresas ocultándose como falsos correos de naturaleza profesional.\\\\
+
+Al igual que \textbf{Agent Tesla}, se compone de un loader o dropper como primera fase, y una vez infecta un equipo es capaz de recolectar credenciales de archivos locales, como contraseñas almacenadas por navegadores automáticamente además de monitorizar pulsaciones de teclado y grabar la pantalla. Adicionalmente, posee capacidades típicas de RATs como abrir consolas y ejecutar comandos remotamente y seguir un servidor de control y comando.\\\\
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=10cm]{imagenes/FormbookPricing.png}
+	\caption{Uno de los anuncios ofertando el malware Formbook}
+	\label{fig:formbook-prices}
+\end{figure}
+
+Aunque el funcionamiento es muy similar, incluyendo las técnicas de evasión de detección que también posee Agent Tesla, Formbook carece de algunas de las técnicas de descubrimiento de sistemas vulnerables que tiene Agent Tesla para infectar dispositivos cercanos al infectado inicialmente\\\\
+
+Otro stealer muy popular hasta hace poco y que competía con los dos ya mencionados siendo vendido como Maas era \textbf{Redline Stealer}. Este solía estar más popularizado y extendido que \textbf{Formbook}, pero en octubre de 2024 el ESET, junto al FBI, la policía holandesa y otras entidades similares llevaron a cabo la Operación Magnus, donde arrestaron a los autores del stealer \textbf{Redline} y desmantelaron toda la operación de venta de este malware, y, a día de hoy, ha pasado de ser uno de las tres familias de malware más encontradas a casi desparecer de la red.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=10cm]{imagenes/redline-meta.png}
+	\caption{Portada del sitio de venta de Redline Stealer después de ser desmantelado}
+	\label{fig:RedlineStealerTakedown}
+\end{figure}
+
+\subsubsection{XWorm}
+
+\textbf{XWorm} es un RAT que ha cobrado reciente relevancia por ser especialmente persistente y sigilosos con la detectada como nueva versión \textbf{XWorm 6.0}. Al contrario que los anteriores stealers, este se suele vender como software por alrededor de 400 dólares en foros poco conocidos y plataformas como telegram.\\\\
+
+Como la mayoría de RATs, una vez infecta un equipo es capaz de establecer control remoto mediante ejecución remota de código, capacidades de grabación de pantalla y captura de teclado y ratón, y obtención de archivos que puedan contener información delicada.\\\\
+
+Esta nueva versión se ejecuta en memoria sin crear archivos físicos en disco dificultando su detección. Además, edito el DLL CLR.DLL en windows, modificando el núcleo del AMSI (o AntiMalware Scan Interface) de Microsoft. También posee capacidades para detectar si esta siendo ejecutado en maquinas virtuales o sandboxes, especialmente las del servicio ANY.RUN que tanto ha explotado en popularidad recientemente. Además, se ha adaptado a vulnerabilidades muy recientes como vectores de infección. Su adaptabilidad al panorama actual lo ha convertido en el RAT más extendido en estos momentos.\\\\
+
+\subsection{Identificación: IOCs y Reglas YARA}
+
+Una herramienta usada actualmente para la detección automática de malware son los \textbf{Indicadores de Riesgo} o \textbf{IoCs} por sus siglas en ingles (\textbf{Indicators of Compromise}) y las reglas \textbf{YARA}. Ambas tienen una utilidad similar, siendo colecciones de datos recogidos de otras muestras de malware y empleadas para identificar malware al encontrarse en la ejecución de un programa. La principal diferencia es que los IoCs son datos como direcciones IP, dominios web y hashes de programas, mientras que por otra parte, las reglas YARA son un tipo de estructura que pueden ser usados para detectar cadenas y fragmentos de código en un programa. Tienen su propia documentación y reglas de construcción, aunque generalmente están compuestas por los siguientes elementos:
+\begin{itemize}
+    \item \textbf{Import}: Permite incorporar módulos externos para ampliar su funcionalidad. El módulo "pe" por ejemplo permite analizar información dentro de los encabezados de los empaquetados de Windows PE.
+    \item \textbf{Metadata}: Contiene información como el autor de la regla YARA, la fecha de creación, referencias, descripción de lo que hace la regla, etc.
+    \item Cadenas: Los propios IoCs. Pueden ser cadenas de texto plano, bytes hexadecimales en un ejecutable binario,  o cualquier otro tipo de estructura que pueda ser detectada.
+    \item \textbf{Condiciones}: Condiciones booleanas que han de cumplirse para generar una alerta. Puede ser por ejemplo, que se cumplan todas las cadenas especificadas o que se cumpla cierta combinación particular de ellas. Existen también variables como el tamaño del archivo o el punto de entrada de la ejecución.
+\end{itemize}
+
+Un ejemplo de una regla YARA creada por el FBI para la detección del Ransomware AvosLocker:\\\\
+
+\lstinputlisting[
+    caption=Regla Yara,
+    label={lst:AvosLocker},
+    language={[Visual]Basic}]
+    {codigo/AvosLockerYara.tex}

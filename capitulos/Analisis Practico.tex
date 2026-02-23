@@ -1,0 +1,1002 @@
+\chapter{Análisis Práctico}
+
+
+\section{Análisis de un maldoc: Ofuscación}
+%SHA256 26ba3fe65926140305a8fa605d09b8bd2fb8251648eac9b3165fb884a506e837
+A continuación, realizaremos un pequeño examen de una muestra que se ha descargado del \textit{Malware Bazaar}, donde se puede encontrar con el \textbf{SHA256} \textbf{2\allowbreak 6\allowbreak b\allowbreak a\allowbreak 3\allowbreak f\allowbreak e\allowbreak 6\allowbreak 5\allowbreak 9\allowbreak 2\allowbreak 6\allowbreak 1\allowbreak 4\allowbreak 0\allowbreak 3\allowbreak 0\allowbreak 5\allowbreak a\allowbreak 8\allowbreak f\allowbreak a\allowbreak 6\allowbreak 0\allowbreak 5\allowbreak d\allowbreak 0\allowbreak 9\allowbreak b\allowbreak 8\allowbreak b\allowbreak d\allowbreak 2\allowbreak f\allowbreak b\allowbreak 8\allowbreak 2\allowbreak 5\allowbreak 1\allowbreak 6\allowbreak 4\allowbreak 8\allowbreak e\allowbreak a\allowbreak c\allowbreak 9\allowbreak b\allowbreak 3\allowbreak 1\allowbreak 6\allowbreak 5\allowbreak f\allowbreak b\allowbreak 8\allowbreak 8\allowbreak 4\allowbreak a\allowbreak 5\allowbreak 0\allowbreak 6\allowbreak e\allowbreak 8\allowbreak 3\allowbreak 7}.\\\\
+
+El virus aparece en forma de macro de un documento de texto, también conocido como maldoc, que como ya sabemos por la funcionalidad del virus, intentara descargar e instalar en el equipo en el que se ejecute otro programa más complejo. Debido a su popular uso como sistema de distribución de virus, la mayoría de procesadores de texto bloquean o al menos avisan al usuario de cuando un archivo sin una firma de confianza intenta hacer uso de macros. Conociendo esto, el de texto solo contiene una imagen con el logotipo de \textbf{Microsoft Office} intentado engañar al usuario de que permita la ejecución de los macros contenidos en el archivo\ref{fig:emotet_doc}.\\\\
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=12cm]{imagenes/EmotetScreenshot.PNG}
+	\caption{Captura del archivo de texto que contiene el malware Emotet}
+	\label{fig:emotet_doc}
+\end{figure}
+
+
+La herramienta \textit{Oletools} nos permite analizar y estudiar las macros creadas con \textit{Object Linking and Embedding (OLE)}, la tecnología propietaria de \textbf{Microsoft} usada para añadir macros a los documentos de texto de \textbf{Word Office}.\\\\
+Al ejecutar el comando \texttt{olevba <archivo>} obtenemos el código de los 3 macros encontrados en el archivo, además de cierta información adicional que nos puede ser de ayuda. El contenido de los 3 macros es el siguiente:\\\\
+
+
+\lstinputlisting[
+    caption=Macro Emotet 1,
+    label={lst:Emotet-olevba-1},
+    firstline=8,
+    lastline=14,
+    language={[Visual]Basic}]
+    {codigo/emotet_olevba.txt}
+
+
+\lstinputlisting[
+    caption=Macro Emotet 2,
+    label={lst:Emotet-olevba-2},
+    firstline=15,
+    lastline=19,
+    language={[Visual]Basic}]
+    {codigo/emotet_olevba.txt}
+
+
+\lstinputlisting[
+    caption=Macro Emotet 3,
+    label={lst:Emotet-olevba-3},
+    firstline=20,
+    lastline=258,
+    language={[Visual]Basic}]
+    {codigo/emotet_olevba.txt}
+
+%1er macro
+% \lstinputlisting[
+%     caption=Macro Emotet 1,
+%     label={lst:Emotet-vba-1},
+%     language={[Visual]Basic}]
+%     {codigo/emotet_vba1.vb}
+% %2do macro
+% \lstinputlisting[
+%     caption=Macro Emotet 2,
+%     label={lst:Emotet-vba-2},
+%     language={[Visual]Basic}]
+%     {codigo/emotet_vba2.vb}
+% %3er macro
+% \lstinputlisting[
+%     caption=Macro Emotet 3,
+%     label={lst:Emotet-vba-3},
+%     language={[Visual]Basic}]
+%     {codigo/emotet_vba3.vb}
+
+El primer macro \ref{lst:Emotet-olevba-1} esta aparentemente vació, pero contiene múltiples variables en forma de \texttt{FORM} de vba:\\\\
+
+\lstinputlisting[
+    caption=Variables Emotet,
+    label={lst:Emotet-olevba-5},
+    firstline=259,
+    lastline=347,
+    language={[Visual]Basic}]
+    {codigo/emotet_olevba.txt}
+
+
+Por último, el programa \texttt{olevba} nos da la siguiente información adicional:\\\\
+
+\lstinputlisting[
+    caption=Información adicional olevba,
+    label={lst:Emotet-olevba-4},
+    firstline=348,
+    lastline=365,
+    language=bash,
+    style=Consola2]
+    {codigo/emotet_olevba.txt}
+
+Podemos probar a usar las opciones \texttt{-deobf} o \texttt{-decode}, pero esto no nos aportara ninguna información útil, ya que los nombres detectados como cadenas codificadas parecen ser falsos positivos y la utilidad para deofuscar el código no  consigue hacer ningún cambio, por lo que tendremos que deofuscar el código manualmente.\\\\
+
+A partir de esta información podemos reconocer los siguientes puntos:
+\begin{itemize}
+    \item El primero de estos macros \ref{lst:Emotet-olevba-1} contiene la función \texttt{Document\_Open()}, que permite la ejecución del macro al abrir el documento.
+    \item El segundo macro \ref{lst:Emotet-olevba-2} no contiene código, pero contiene múltiples variables, como se puede ver en el fragmento \ref{lst:Emotet-olevba-4}.
+    \item El tercer macro \ref{lst:Emotet-olevba-3} contiene código claramente ofuscado para hacerlo lo menos legible posible. El nombre de las variables carece de sentido, y muchas de ellas son complicaciones para hacerlo todo más confuso.
+\end{itemize}
+
+Procedemos ahora a deofuscar el código. Para comenzar, el tercer macro contiene múltiples cláusulas \texttt{Select...Case...} sobre variables que no han sido declaradas, ni se declararan en ningún momento. Podemos eliminar todas estas cláusulas para obtener un código mucho más corto.\\\\
+
+Esto nos produce el siguiente código:\\\\
+
+\lstinputlisting[
+    caption=Macro Emotet deofuscado 1,
+    label={lst:Emotet-vba-deobfuscated-1},
+    language={[Visual]Basic}]
+    {codigo/emotet_vba_deobfuscated1.vb}
+
+
+El código es ahora mucho más breve, y podemos distinguir varias partes legibles que, aún sin saber el funcionamiento completo del programa, parecen sospechosas:\\\\
+
+\begin{itemize}
+    \item La variable \texttt{showwindow = false} es usualmente usada para esconder la ventana de una consola mientras se realizan operaciones en segundo plano.
+    \item La función \texttt{GetObject()} se usa para cargar archivos del disco externos al programa.
+    \item La función \texttt{ChrW()} se usa para transformar un valor entero a su carácter asociado en Unicode.
+\end{itemize}
+
+Continuaremos desofuscando el código con los siguientes pasos:\\\\
+
+\begin{enumerate}
+    \item Cambiamos algunas funciones como \texttt{ChrW(wdKeyP)} por su resultado inmediato, \texttt{'P'}.
+    \item Cambiamos el nombre de variables cuyo contenido ya conocemos a algo más legible, como \texttt{ Hnkanudydg = 'P'} a \texttt{ LetterP = 'P'}.
+    \item Sustituimos las variables contenidas en el otro macro por su contenido directo.
+\end{enumerate}
+
+Las variables a las que el código hace referencia vienen ocultas en forma de \textbf{UserForms}, en lugar de estar declaradas en el macro. La utilidad olevba nos ha dado ya el contenido de alguna de ellas, cuando el valor esta almacenada en la propiedad \texttt{value} del formulario, sin embargo en otras ocasiones se hace referencia a otra propiedad del formulario, como en el caso de \texttt{Bimqxgzblyrp.Cvlpoddz.GroupName}, y necesitaremos acceder a las propiedades del formulario.\\\\
+
+Podemos acceder a estas propiedades mediante el editor de macros de Microsoft Office, pero esta es una herramienta de pago por lo que en su lugar, haremos uso de otra de las herramientas de oletools. Entra otras utilidades, olevba contiene el archivo \texttt{oleform.py}, aunque no se encuentra implementado en ninguna de los comandos de consola y para hacer uso de este debemos construir un pequeño wrapper que abra el archivo a analizar, encuentre la parte relevante usando expresiones regulares, llame a la función sobre el archivo del que queremos extraer los datos.\\\\
+
+Al usarlo por primera vez sin embargo, nos encontramos con un problema. Veremos que algunos de los resultados son incorrectos y contiene bytes basura al comienzo y pierden bytes importantes al final. Parece que el código de \texttt{oleform.py} no esta perfectamente programada y para algunos tipos de campo en concreto los resultados no son correctos, por lo que es necesario reparar el código.\\\\
+
+Tras buscar en la documentación oficial sin mucho éxito, y después de recurrir a foros donde se han documentado errores similares\cite{Navdeep_oleform}, parece ser que existe un padding de datos los campos de tipo \texttt{fString}, que no fueron correctamente documentados de manera oficial, y que explica los fallos obtenidos al intentar extraer estos datos. Una vez conocemos la estructura, y tras leer y comprender el funcionamiento de \texttt{oleform.py}, arreglar este bug es relativamente sencillo, y simplemente debemos ajustar el número de bytes leídos incluyendo el padding y eliminarlo del resultado final antes de mostrar los resultados, como se muestra en el archivo de \texttt{oleform.py} corregido.\\\\
+
+\lstinputlisting[
+    caption=Wrapper para oleform.py,
+    label={lst:wrapper-oleform.py},
+    language=python]
+    {codigo/extract_forms.py}
+
+Procedemos ahora a centrarnos en la primera función, \texttt{Pitxyglphi ()}. En esta funciones obtenemos varias cadenas que se concatenaran, se separaran por una cadena caracteres y se volverán a unir. Realizando estas operaciones manualmente obtenemos la siguiente versión final de la función:\\\\
+
+\lstinputlisting[
+    caption=Funcion 1 Emotet deofuscada,
+    label={lst:Emotet-func1_deobf},
+    language={[Visual]Basic}]
+    {codigo/emotet_func1_deobf.vb}
+
+% \lstinputlisting[
+%     caption=Resultado de la herramienta oleform.py,
+%     label={lst:emotet-forms},
+%     language=bash]
+%     {codigo/emotet_forms.txt}
+
+
+% \lstinputlisting[
+%     caption=Macro Emotet deofuscado 2,
+%     label={lst:Emotet-vba-deobfuscated-2},
+%     language={[Visual]Basic}]
+%     {codigo/emotet_vba_deobfuscated2.vb}
+
+Esta función da como resultado una cadena en la que se puede reconocer una llamada a una consola de Powershell, seguido de una cadena de texto que parece estar encriptada en base64, de la cual obtenemos, tras añadir algunos espacios para mejor lectura:\\\\
+
+\lstinputlisting[
+    caption=Texto decodificado,
+    label={lst:Emotet-base64},
+    style= Consola]
+    {codigo/emotet_base64.txt}
+
+Como podemos ver, el objetivo de estas lineas de código es construir un objeto \texttt{net.webclient} e iterar a través de varios enlaces para descargar un programa y ejecutarlo. Realizando operaciones similares sobre la segunda función obtenemos:\\\\
+
+\lstinputlisting[
+    caption=Funcion 2 Emotet deofuscada,
+    label={lst:Emotet-func2_deobf},
+    language={[Visual]Basic}]
+    {codigo/emotet_func2_deobf.vb}
+
+Para resumir el funcionamiento global de este macro:\\\\
+
+\begin{enumerate}
+    \item Al abrir el documento, el macro \ref{lst:Emotet-olevba-1} intentara ejecutarse automáticamente, llamando al macro \ref{lst:Emotet-olevba-3}.
+    \item El macro \ref{lst:Emotet-olevba-3} ejecuta una función que, a partir de datos ofuscados, construye una orden powershell para descargar y ejecutar un archivo
+    \item La otra función construye, a través de métodos ofuscados, un proceso con WMI (Windows Management Instrumentation) para llamar a una consola de powershell oculta y ejecutar la orden anterior.
+\end{enumerate}
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=10cm]{imagenes/EmotetWebsites}
+	\caption{Sitios web referenciados por el código del maldoc }
+	\label{fig:emotet_websites}
+\end{figure}
+
+Los enlaces a los que intenta acceder están caídos y ya no son accesibles, aunque las páginas web en si aún lo son \ref{fig:emotet_websites}. La mayoría de sitios donde se alojan parecen legítimos, relacionados con empresas y personas reales, por lo que podemos asumir que se trata de paginas web legitimas que se han visto atacadas y usadas para la distribución del virus, pero que actualmente ya han sido reparadas.\\\\
+
+Aunque no se tiene acceso a la siguiente fase de este malware, gracias a los IoCs y reglas YARA detectadas en esta muestra, podemos ver que las direcciones a las que intentaba acceder están asociadas a un malware de la familia de \textbf{Emotet}, que actúa principalmente como loader o dropper de malware más complejo, un funcionamiento que se ajusta a lo visto en la muestra.\newpage
+
+\section{Análisis de un exploit: CVE-2017-11882}
+
+Anteriormente vimos como una muestra del malware Emotet hacía uso de un documento de la suite de Microsoft Office conteniendo un macro con código VBA para infectar un equipo, sin embargo, el código meramente ofuscado en una macro requiere que el usuario ejecute manualmente el macro tras múltiples avisos por parte del programa de que hacerlo puede resultar dañino para el equipo.\\\\
+
+El siguiente malware, asociado a la familia \textbf{Agent Tesla} según los IoCs, haciendo uso de un exploit en la aplicación de edición de ecuaciones de Microsoft, puede descargar e instalar una segunda fase del malware simplemente al abrir el documento de Microsoft Office sin necesidad de que el usuario acceda a ejecutar ningún código, si es abierto en un equipo con la versión desactualizada y vulnerable de windows a la que hace objetivo.\\\\
+Este exploit, que se encuentra en la aplicación de edición de ecuaciones, no fue detectado hasta el año 2017, pese a que el programa recibió su última actualización en el año 2000. Esta aplicación fue desarrollada por una empresa externa a Microsoft que no se hace cargo de fallos como este descubiertos 17 años después de su desarrollo, por lo que los parches implementados por Microsoft sobre este software no fueron demasiado efectivos y la aplicación se siguió usando como vector de infección, con otros fallos en los propios parches hasta que se decidió que el mejor método de detener los ataques era dejar de hacer uso de esta herramienta completamente.\\\\
+El exploit identificado como CVE-2017-11882 y propio del primer parche que se implementó para tratar de arreglarlo, es un ataque por un fallo de sobrecarga del buffer de la pila o  \textit{stack buffer overflow}. Un fallo que se podría prevenir si la aplicación hubiese implementado técnicas de \textit{Data Execution Prevention} (DEP) y \textit{Address Space Layout Randomization} (ASLR), algo que Microsoft no requería de manera obligatoria en el momento en el que se introdujo esta herramienta. Para entender mejor como funciona este exploit, usaremos ingeniería inversa sobre la siguiente muestra de malware de la familia Agent Tesla en su primera fase de infección del equipo, con \textbf{SHA256} \textbf{7\allowbreak 6\allowbreak 5\allowbreak 0\allowbreak e\allowbreak c\allowbreak a\allowbreak 1\allowbreak f\allowbreak 4\allowbreak e\allowbreak 1\allowbreak f\allowbreak 7\allowbreak 7\allowbreak 5\allowbreak a\allowbreak b\allowbreak e\allowbreak 6\allowbreak e\allowbreak e\allowbreak d\allowbreak d\allowbreak 2\allowbreak 7\allowbreak c\allowbreak c\allowbreak 3\allowbreak d\allowbreak 5\allowbreak 1\allowbreak 3\allowbreak 1\allowbreak f\allowbreak 5\allowbreak 7\allowbreak c\allowbreak 9\allowbreak 2\allowbreak 7\allowbreak f\allowbreak c\allowbreak 5\allowbreak 9\allowbreak b\allowbreak b\allowbreak 4\allowbreak 6\allowbreak 8\allowbreak 1\allowbreak d\allowbreak 3\allowbreak 8\allowbreak 9\allowbreak 7\allowbreak d\allowbreak 4\allowbreak 9\allowbreak 9\allowbreak d\allowbreak d\allowbreak 3\allowbreak e\allowbreak } \\\\
+Empezando de una forma similar a como analizamos el documento con el malware de Emotet, hacemos uso de las herramientas la suite \textit{oletools}, pero en este caso, un primer análisis no detecta nada como vemos en la imagen \ref{fig:tesla_olevba}.\\\\
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=12cm]{imagenes/TeslaOlevba.PNG}
+	\caption{Salida de consola al usar \texttt{olevba} sobre el documento}
+	\label{fig:tesla_olevba}
+\end{figure}
+
+Pero al descomprimir  y estudiar la estructura del documento podemos encontrar la siguiente información en el archivo \texttt{{[Content\_Types]}.xml}, figura \ref{fig:tesla_xml}:\\\\
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=12cm]{imagenes/TeslaXML2.png}
+	\caption{Contenido del documento de excel}
+	\label{fig:tesla_xml}
+\end{figure}
+
+Podemos ver que hay un objeto OLE en el documento, aunque no contiene código VBA. Analizar el stream hexadecimal no nos da mucha más información.\\\\
+Aunque es común encontrar referencias a la aplicación de edición de ecuaciones, en este caso el creador del malware ha borrado los encabezamientos que nos pudieran dar alguna pista a simple vista mediante el uso de \texttt{oledump.py} o el comando \texttt{strings}. El creador del malware logra esto implementando la llamada a la aplicación de edición de ecuaciones como una llamada nativa OLE 1.0 convertida a formato OLE 2.0, sin embargo, encontramos la cadena \textbf{Root Entry} y, ya sea por conocer la estructura de este tipo de stream de datos o mediante el uso de \texttt{oledump.py} con los argumentos correctos, encontramos el \textbf{CLSID 0002CE02-0000-0000-C000-000000000046}, un identificador de herramientas y servicios de Microsoft que hace referencia al editor de ecuaciones.\\\\
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=9cm]{imagenes/TeslaCLSID2.PNG}
+	\caption{Stream de datos hexadecimal}
+	\label{fig:tesla_CLSID2}
+\end{figure}
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=11cm]{imagenes/TeslaCLSID.PNG}
+	\caption{Salida de la herramienta \texttt{oledump.py} con los argumentos para encontrar CLSIDs en las secciones comprimidas en el documento}
+	\label{fig:tesla_CLSID}
+\end{figure}
+
+Ahora que hemos detectado el uso de la aplicación de edición de ecuaciones y conociendo sus múltiples vulnerabilidades, podemos explorar el stream hexadecimal y buscar que se este explotando alguno de los fallos de diseño de la aplicación. El exploit hace uso de la función que carga tipografías de letras en el programa, cuya estructura conocemos si buscamos la documentación oficial\cite{MTEF_headers}.\\\\
+La estructura es la siguiente:\\\\
+\begin{itemize}
+    \item Un encabezamiento de 5 bytes comenzando por la versión del editor de ecuaciones, 02 o 03
+    \item 4 bytes de especificaciones de generación del programa
+    \item 2 bytes de datos reservados
+    \item 3 bytes de registro de la tipografía, comenzando siempre por un byte para el ID de valor 08, seguido de un byte de identificador de la familia de fuente y otro byte para el estilo de letra
+\end{itemize}
+
+ Buscando en el stream hexadecimal por el byte 08 encontramos una estructura de acuerdo a esta, como vemos en la figura \ref{fig:tesla_font_record}. Justo después de los identificadores, comienza la tipografía, la cual se guarda en pila en un buffer de 40 bytes de tamaño. Sin embargo, la función esta programada para leer de la entrada hasta encontrar un byte 00, y debido a los fallos de diseño de la aplicación ya comentados, esto permite sobrecargar el buffer insertando 8 bytes más de los que el buffer debería contener, reemplazando la posición de retorno en la pila que teníamos a la que el creador del malware desee, en este caso, a la dirección 0x0042332C, como se ve en la imagen.\\\\
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=11cm]{imagenes/TeslaFont_Record.PNG}
+	\caption{Buffer de carga de la tipografía}
+	\label{fig:tesla_font_record}
+\end{figure}
+
+Para poder seguir el funcionamiento del malware a partir de este punto es necesario hacer un análisis dinámico. Con este objetivo usamos la herramienta \textbf{x64dbg} (en su modalidad para programas de 32 bits, \textbf{x32dbg}) y editamos los registros de Windows para anclar ese debugger a la aplicación del editor de ecuaciones como se ve en la figura \ref{fig:tesla_regedit}.\\\\
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=11cm]{imagenes/TeslaRegedit.PNG}
+	\caption{Registro de Windows referente al editor de ecuaciones}
+	\label{fig:tesla_regedit}
+\end{figure}
+
+Una vez abramos el documento infectado, x64dbg se abrirá automáticamente cuando el documento excel llame al programa de edición de ecuaciones. La posición de la instrucción en la que el programa intenta cargar la tipografía es la 0x00411874, por lo que colocaremos un breakpoint en esta posición. Podemos ver en la figura \ref{fig:tesla_debugger1} que en la primera ejecución del programa se carga la tipografía \textit{Times New Roman} por defecto, y si continuamos la ejecución veremos en la figura \ref{fig:tesla_debugger2} que se volverá a esta instrucción al cargar la tipografía \textit{Tw cent MT Condensed Extra Bold}, la cual es en realidad el buffer sobrecargada que hemos visto antes en la figura \ref{fig:tesla_font_record}.\\\\
+
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=11cm]{imagenes/TeslaDebugger1.PNG}
+	\caption{Carga de la tipografía \textit{Times New Roman} }
+	\label{fig:tesla_debugger1}
+\end{figure}
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=11cm]{imagenes/TeslaDebugger2.PNG}
+	\caption{Carga del buffer sobrecargado }
+	\label{fig:tesla_debugger2}
+\end{figure}
+
+Usualmente, y en primeras versiones de este exploit, la dirección a la que se retornaba era una instrucción que llamaba a la función \texttt{WinExec()}, que en el caso de la aplicación original llamaba a la aplicación de la calculadora de Windows, pero que en el caso del exploit, podía almacenar en la pila gracias al buffer sobrecargado hasta 40 bytes de instrucciones shellcode que ejecutar a través de la función \texttt{WinExec()}, los cuales resultaban mas que suficientes como malware de primera fase para descargar y ejecutar un payload con el malware de segunda fase.\\\\
+
+Sin embargo, en el caso de esta versión del exploit el autor ha intentado ofuscar la ejecución del virus algo más, y la instrucción a la que se retorna en esta posición es otra instrucción de retorno dentro del programa, figura \ref{fig:tesla_debugger3}, que al ser ejecutada devuelve a la posición de memoria que el autor del malware haya almacenado, llevando en este caso a ejecutar el stream hexadecimal que teníamos en el buffer sobrecargado en pila como código máquina, como se ve en la figura \ref{fig:tesla_debugger4}.\\\\
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=11cm]{imagenes/TeslaDebugger3.PNG}
+	\caption{Instrucción redirigida por la sobrecarga del buffer en la pila}
+	\label{fig:tesla_debugger3}
+\end{figure}
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=11cm]{imagenes/TeslaDebugger4.PNG}
+	\caption{Código máquina del buffer sobrecargado}
+	\label{fig:tesla_debugger4}
+\end{figure}
+
+Se puede comprobar que las instrucciones en código máquina son efectivamente las vistas anteriormente en el buffer de la tipografía, incluyendo la dirección de memoria inicial de la sobrecarga usada para redirigir la ejecución del programa hasta este punto. Las instrucciones que se ejecutan desde este buffer son las siguientes:
+
+\begin{enumerate}
+    \item Se carga el valor 0x1889B1AB en el registro eax.
+    \item Se suma el valor 0xE7BC0B91 al registro eax.
+    \item Se carga en ebx los 32 bits en la dirección de memoria [eax].
+    \item Se carga en edx los 32 bits en la dirección de memoria [ebx].
+    \item Se carga en edi el valor 0xFFB9984F.
+    \item Se hace la operación NOT en el registro edi.
+    \item Se carga en esi los 32 bits en la dirección de memoria [esi].
+    \item Se mueve el contenido del registro edx a la pila.
+    \item Se llama a la función en la dirección esi
+    \item Sumar 0x40 al registro eax
+    \item Saltar a la posición en eax
+\end{enumerate}
+
+Después de varias operaciones y saltos que solo tienen el propósito de ofuscar el funcionamiento del código aun más, se carga en el registro eax el valor 0x0045BD3C y en edi el valor 0x004667B0, como se ve en la figura \ref{fig:tesla_debugger7}. Estos valores son importantes, pues la dirección en eax lleva a un objeto con una estructura temporal que apunta al comienzo del stream hexadecimal del objeto nativo ole 1.0, donde se encuentra el resto del código que se desea ejecutar. La posición cargada en el registro esi apunta a una llamada a la función \texttt{GlobalLock()} dentro de la aplicación de edición de ecuaciones, que luego se traslada a esi como la llamada a \texttt{GlobalLock()} dentro de la librería de kernel32 de Windows. Esta función permite bloquear posiciones en memoria, en este caso usado para bloquear la estructura temporal referida en eax, y después devuelve la posición de memoria inicial donde comienza la sección bloqueada. Una vez bloqueada en memoria, se suma un offset de 0x40 a la posición en eax y salta a esta posición para continuar la ejecución del código malicioso, consiguiendo así alojar en memoria el shellcode y estableciendo el punto de entrada a la ejecución del código.\\\\
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=11cm]{imagenes/TeslaDebugger7.PNG}
+	\caption{Direcciones cargadas en los registros}
+	\label{fig:tesla_debugger7}
+\end{figure}
+
+Conociendo que el código malicioso restante esta almacenada en el stream hexadecimal y su posición concreta, y suponiendo que al igual que múltiples variantes de este exploit acabara por ejecutar shellcode, cambiamos al programa \textit{scdbg.exe} y cargamos el stream hexadecimal en el. Conocemos el punto de inicio de ejecución del código, por lo que podemos cargar el stream directamente en el programa y seleccionar el offset como se ve en la figura \ref{fig:tesla_scdbg1}.\\\\
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=11cm]{imagenes/TeslaScdbg1.png}
+	\caption{Carga del stream hexadecimal en scdbg}
+	\label{fig:tesla_scdbg1}
+\end{figure}
+
+El código, como vemos en la figura \ref{fig:tesla_scdbg2}, se trata de un desencriptado XOR dinámico. El código esta lleno de saltos innecesarios y operaciones \texttt{push pop} para dificultar la detección y lectura del código. Eliminando las partes innecesarias del código de desencriptado podemos ver los valores y pasos que usa para obtener el código final:\\\\
+
+\lstinputlisting[
+    caption=Cifrado XOR en Agent Tesla,
+    label={lst:tesla_XOR},
+    language={[Visual]Basic}]
+    {codigo/tesla_xor.asm}
+
+Cuyo funcionamiento puede resumirse de la siguiente forma:
+
+\begin{enumerate}
+    \item Se almacena en el registro esi el valor en la pila, la posición de comienzo del shellcode.
+    \item Se suma 0x62 al registro esi.
+    \item Se almacena en el registro edi la posición a la qu apunta el registro esi más un offset de 0x2CB.
+    \item Se multiplica el registro edx por 0x0.
+    \item Se multiplica el registro edx por 0x385B7BD9.
+    \item Se suma 0x68D23EF5 al registro edx.
+    \item Se realiza una operación XOR de los 4 bytes en la posición de memoria a los que apunta esi y el valor en eax.
+    \item Se suma 0x4 al registro esi.
+    \item Se compara el valor en el registro esi con el valor en el registro edi.
+    \item si esi es mayor que edi, se vuelve al paso 5.
+\end{enumerate}
+
+Podemos obtener estaticamente el shellcode final con un script de python como el siguiente que realice esta desencriptación sobre una cadena de datos:\\\\
+
+\lstinputlisting[
+    caption=Script para el desencriptado XOR,
+    label={lst:XORScript},
+    language={[Visual]Basic}]
+    {codigo/HexXORdecrypter.py}
+
+Aunque el propio programa scdbg simula la ejecución y nos muestra las llamadas a funciones de la API de windows, como se ve en la figura \ref{fig:tesla_scdbg3}.\\\\
+
+Las funciones a las que llama son:\\\\
+
+\begin{enumerate}
+    \item \texttt{GetProcAddress(ExpandEnviromentStringsW)}: Para obtener la dirección a la función \texttt{ExpandEnviromentStringsW}.
+    \item \texttt{ExpandEnviromentStringsw(\%APPDATA\%\textbackslash equitosprivatmondaydating.vbs, dst=12fbd8, sz=104)}: Que expande la variable de entorno para obtener la dirección de la carpeta appdata en el sistema junto al nombre del malware a descargar y lo almacena en 12fbd8.
+    \item \texttt{LoadLibrary(UrlMon)}: Para cargar la librería de Windows \textit{URlMon}, que contiene funciones para descargar archivos desde URL.
+    \item \texttt{GetProcAddress(URlDownloadToFileW)}: Obtiene la dirección de la función \texttt{URLDownloadToFilew()}.
+    \item \texttt{URLDownloadToFilew(....)}: Descarga el malware de la URL especificada y lo almacena en la capeta appdata obtenida anteriormente.
+    \item \texttt{LoadLibrary(shell32)}: Carga la librería \textit{shell32}, que contiene funciones para ejecutar procesos y manejar consolas.
+    \item \texttt{GetProcAddress(ShellExecuteW)}: Obtiene la dirección de la función \texttt{ShellExecuteW()}, que permite ejecutar programas por consola.
+\end{enumerate}
+
+El shellcode hace uso de la función GetProcAddress para obtener la dirección en memoria de múltiples funciones de Windows y llamarlas directamente a través de código máquina sin necesidad de hacer uso de la función \texttt{WinExec()}, lo que permite que muchos de los antivirus que realizan análisis estático sobre el documento infectado no sean capaces de detectarlo.\\\\
+Almacena en memoria las cadenas necesarias como argumento para llamar al resto de funciones y termina por llamar a la función \texttt{ShellExecuteW()} para ejecutar el malware descargado, cosa que el debugger scdbg no realiza al estar simplemente simulando la ejecución.\\\\
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=11cm]{imagenes/TeslaScdbg2.PNG}
+	\caption{Ejecución del código malicioso en scdbg}
+	\label{fig:tesla_scdbg2}
+\end{figure}
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=11cm]{imagenes/TeslaScdbg3.PNG}
+	\caption{Shellcode final tras el desencriptado}
+	\label{fig:tesla_scdbg3}
+\end{figure}\newpage
+
+\section{Análisis de un ejecutable}
+Para finalizar la parte de análisis práctico, estudiaremos un ejecutable de Windows. La muestra en concreto se puede encontrar en Malware Bazaar por su identificador de \textbf{SHA256} \textbf{a\allowbreak 9\allowbreak 4\allowbreak 0\allowbreak 0\allowbreak 1\allowbreak 4\allowbreak a\allowbreak 7\allowbreak 3\allowbreak 0\allowbreak 1\allowbreak 2\allowbreak 9\allowbreak f\allowbreak 9\allowbreak 5\allowbreak 3\allowbreak 7\allowbreak 1\allowbreak c\allowbreak 8\allowbreak 4\allowbreak c\allowbreak 9\allowbreak 8\allowbreak 2\allowbreak b\allowbreak c\allowbreak b\allowbreak f\allowbreak 3\allowbreak 7\allowbreak 8\allowbreak 5\allowbreak 8\allowbreak 6\allowbreak e\allowbreak 7\allowbreak a\allowbreak f\allowbreak d\allowbreak 6\allowbreak e\allowbreak b\allowbreak 2\allowbreak f\allowbreak 3\allowbreak d\allowbreak 0\allowbreak a\allowbreak c\allowbreak a\allowbreak f\allowbreak 0\allowbreak d\allowbreak 1\allowbreak 5\allowbreak a\allowbreak 8\allowbreak d\allowbreak e\allowbreak d\allowbreak 4\allowbreak}.\\\\
+
+Este archivo parece estar asociado a la familia de malware \textbf{Snake Keylogger}, una familia parecida a \textbf{Agent Tesla} o \textbf{Formbook}. Podemos empezar por intentar realizar un análisis estático del ejecutable, aunque este no nos llevará muy lejos. Comenzamos por cargarlo en el programa \textbf{Detect It Easy} o \textbf{DIE}, que nos mostrara información útil sobre el empaquetado, compilación y otros metadatos del ejecutable\ref{fig:Snake_DIE}.\\\\
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=11cm]{imagenes/DIE.PNG}
+	\caption{Información revelada por DIE}
+	\label{fig:Snake_DIE}
+\end{figure}
+
+El programa nos muestra que es un ejecutable de Windows de 32 bits, con arquitectura del procesador \textbf{I386}. Además, podemos ver información de las versiones del enlazador y el compilador, que ha sido programado en \textbf{C++} con la herramienta \textbf{Visual Studio 2012} y, lo que resulta más llamativo, que está en formato de \textbf{AutoIt(3.XX)}, como vemos en el texto resaltado en verde, y que contiene datos empaquetados, como muestra el texto resaltado en rojo. Pronto veremos qué significa esto, pero primero, probamos a cargarlo en IDA para ver qué información nos puede revelar\ref{fig:Snake_IDA}.\\\\
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=11cm]{imagenes/SnakeIDA.PNG}
+	\caption{Desensamblado del ejecutable en IDA}
+	\label{fig:Snake_IDA}
+\end{figure}
+
+Podemos observar que el desensamblado del programa produce una cantidad de código enorme. En la sección de la izquierda podemos ver una lista de las funciones y subrutinas detectadas automáticamente por IDA, aunque la gran mayoría no tienen una función identificada\ref{fig:Snake_funciones}.\\\\
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[ width=5cm]{imagenes/SnakeFunctions1.PNG}
+	\caption{Ventana de funciones en IDA}
+	\label{fig:Snake_funciones}
+\end{figure}
+
+Para intentar obtener una visión inicial más organizada del funcionamiento del malware, accedemos a la vista de grafo de funciones que nos proporciona IDA, aunque, en este caso, el resultado...\\\\ 
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{imagenes/GrafoDeLlamadasAFunciones.PNG}
+	\caption{Grafo de llamadas a funciones}
+	\label{fig:Grafo_funciones}
+\end{figure}
+
+Sigue siendo bastante intimidante. Sin embargo, podemos hacer zoom y ver algunas funciones y llamadas que pueden resultar sospechosas a primera vista, como:\\\\
+
+Funciones que intentan alterar las claves de registro\ref{fig:Funciones_regKey}.\\\\
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{imagenes/FuncionesRegKey.PNG}
+	\caption{Funciones que modifican claves de registro}
+	\label{fig:Funciones_regKey}
+\end{figure}
+
+Funciones que tratan de obtener información del estado del teclado o pulsaciones de teclas\ref{fig:Funciones_Keyboard1} y \ref{fig:Funciones_Keyboard2}:\\\\
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{imagenes/FuncionesKeyboard.PNG}
+	\caption{Funciones que obtienen información del teclado 1}
+	\label{fig:Funciones_Keyboard1}
+\end{figure}
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{imagenes/FuncionKeybd.PNG}
+	\caption{Funciones que obtienen información del teclado 2}
+	\label{fig:Funciones_Keyboard2}
+\end{figure}
+
+O que intentan establecer comunicaciones a través de la red\ref{fig:Funciones_GetHostName} y \ref{fig:Funciones_Socket}:\\\\
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{imagenes/FuncionGethostname.PNG}
+	\caption{Función GetHostName}
+	\label{fig:Funciones_GetHostName}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{imagenes/FuncionesSocker.PNG}
+	\caption{Funciones de uso de sockets}
+	\label{fig:Funciones_Socket}
+\end{figure}
+
+Y, lo que probablemente resulte un problema, medidas antianálisis en forma de llamadas a la función \texttt{IsDebuggerPresent} de la librería de Windows\ref{fig:Funcion_IsDebuggerPresent}:\\\\
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{imagenes/FuncionIsDebuggerPresent.PNG}
+	\caption{Función IsDebuggerPresent}
+	\label{fig:Funcion_IsDebuggerPresent}
+\end{figure}
+
+Procedemos a investigar la llamada a esta última función en concreto. Para ello, la localizamos en la ventana de \textbf{imports} de IDA\ref{fig:IsDebugger1}, y hacemos click en ella para seguir su llamada en el código \ref{fig:IsDebugger5}:\\\\
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{imagenes/Isdebugger1.PNG}
+	\caption{Función IsDebuggerPresent en la pestaña de imports}
+	\label{fig:IsDebugger1}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{imagenes/Isdebugger5.PNG}
+	\caption{Función IsDebuggerPresent en los datos de llamadas en el código}
+	\label{fig:IsDebugger5}
+\end{figure}
+
+En la sección resaltada, podemos ver en qué subrutina o función se está llamando a esta función\ref{fig:IsDebugger2}. Una vez vamos, hacemos click para seguir el rastro de llamadas hasta el código desensamblado.\\\\
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{imagenes/Isdebugger2.PNG}
+	\caption{Subrutina en ensamblador que realiza la llamada a IsDebuggerPresent}
+	\label{fig:IsDebugger2}
+\end{figure}
+
+Como se puede ver justo después de llamar a la función, se hace una orden \texttt{test} seguida de un salto condicional. Es sencillo suponer que este salto depende del resultado de la función \texttt{IsDebuggerPresent}, y que el resultado, en caso de detectar la presencia de un debuggeador, será el siguiente\ref{fig:IsDebugger3}:\\\\
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{imagenes/Isdebugger3.PNG}
+	\caption{Subrutina en ensamblador que realiza la llamada a IsDebuggerPresent 2}
+	\label{fig:IsDebugger3}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{imagenes/Isdebugger4.PNG}
+	\caption{Mensaje resultante de detectar un debuggeador analizando el ejecutable}
+	\label{fig:IsDebugger4}
+\end{figure}
+
+Como podemos ver, en caso de detectar la presencia de un debuggeador, se lanza una ventana que contiene el mensaje "\textit{This is a third-party compiled AutoIt script.}"\ref{fig:IsDebugger4}. Este puede ser un buen momento para investigar sobre qué es AutoIt, lo que nos proporcionará más información sobre cómo está construido este malware.\\\\
+
+AutoIt es un lenguaje de scripting basado en BASIC lanzado inicialmente en 1999. Los scripts creados en este lenguaje son compilados junto a un intérprete del propio lenguaje, que se ejecuta para interpretar el script creado. El programa, aunque sea de licencia de uso gratuita, es de código propietario e incluye sistemas de antianálisis e ingeniería inversa bastante agresivos para evitar la obtención del código del intérprete, que se extienden a los programas creados con AutoIt debido a que la ejecución incluye la ejecución del intérprete. Debido a este diseño y las dificultades que los creadores del programa han creado para debuggear el código (no existe un debugger propio y los creados por usuarios tienen prohibida su publicación en los foros del sitio web, así como las constantes actualizaciones intentan detener el funcionamiento de cualquier herramienta que analice la ejecución), AutoIt ha sido acogido y usado para la creación de malware ya que dificulta cualquier tipo de análisis. Esto explica también el enorme tamaño del ejecutable, que no solo contiene el malware, sino todo un intérprete de un lenguaje de scripting.\\\\
+
+Sin embargo, la popularidad de este lenguaje significa que existen herramientas que pueden descompilar el ejecutable de vuelta en su código de AutoIt\ref{fig:Aut2exe}.\\\\
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=\textwidth]{imagenes/Aut2Exe.PNG}
+	\caption{Aut2Exe, un descompilador de scripts de AutoIt }
+	\label{fig:Aut2exe}
+\end{figure}
+
+El programa Aut2Exe descompila e intenta desofuscar el código (sin mucho éxito). El proceso para desofuscar el código es similar al seguido en la primera parte del análisis práctico, por lo que se hará menos hincapié ahora. Además del script en formato \texttt{.au3}, se han generado dos archivos más, uno llamado \textbf{caulds} y otro llamado \textbf{silvexes}. Estos son los datos comprimidos que la ejecución inicial de \textbf{DIE} detectó, y que el descompilador ha descomprimido junto al script. Al analizarlos con un programa como \textbf{DIE} o al ver los metadatos, no se obtiene mucha información. El archivo \textbf{caulds} parece ser un archivo de texto plano con una lista de valores numéricos, mientras que Silvexes parece ser un archivo binario, aunque ni \textbf{DIE} detecta ningún tipo de compilación o empaquetado ni al cargarlo en \textbf{IDA} o \textbf{scdbg} obtenemos nada que parezca la ejecución de un programa. Continuamos entonces con el archivo de script \texttt{.au3}. Para resumir brevemente la parte de desofuscación del script, hemos seguido los siguientes pasos:\\\\
+
+\begin{itemize}
+    \item Se identifica la declaración de una función global al comienzo del script. Esta resulta poco legible pero, tras cambiar el nombre de variables y estudiar el funcionamiento del lenguaje de scripting AutoIt, se puede obtener una función más clara:\\\\
+\end{itemize}
+
+\lstinputlisting[
+    caption=Función ofuscada,
+    label={lst:snake-script},
+    firstline=3,
+    lastline=10,
+    language={[Visual]Basic}]
+    {codigo/snake_script.au3}
+
+    \lstinputlisting[
+    caption=Función desofuscada y ejecutable como script de AutoIt,
+    label={lst:traduce},
+    language={[Visual]Basic}]
+    {codigo/traduce.au3}
+
+Y una vez comprendido el funcionamiento de esta función, que simplemente toma una cadena de valores que transforma en su correspondiente representación ascii menos 7, podemos crear un script en python que lea el archivo y traduzca cada llamada a esta función en su representación ascii final.\\\\
+
+   \lstinputlisting[
+    caption=Script para traducir el keylogger,
+    label={lst:Descodificadorkeylogger},
+    language={[Visual]Basic}]
+    {codigo/DescodificadorKeylogger.py}
+
+La próxima parte relevante del script, ahora más legible, es la siguiente:\\\\ 
+
+\lstinputlisting[
+    caption=Script desofuscado,
+    label={lst:snake-script2},
+    firstline=11,
+    lastline=19,
+    language={[Visual]Basic}]
+    {codigo/keylogger_decod1.au3}
+
+Los pasos que sigue el programa son:\\\\
+\begin{itemize}
+    \item Linea 1: Guardar los datos comprimidos \textbf{caulds} en la carpeta temporal del usuario
+    \item Linea 2: Leer los datos y almacenarlos en una variable
+    \item Linea 3: Ejecutar la función de traducción ya analizada anteriormente sobre los datos de \textbf{caulds} guardados en la variable
+    \item Linea 4: Llamar a la función \texttt{DllStructCreate} que, en AutoIT, es la única manera de reservar espacio en memoria y trabajar con punteros, añadiendo como parámetro el tamaño en bytes de \textbf{caulds}
+    \item Linea 5: Se asigna la variable \textbf{caulds} al espacio reservado
+    \item Linea 6: Guardar los datos comprimidos \textbf{silvexes} en la carpeta temporal del usuario
+    \item Linea 7: Se obtiene un puntero a la estructura en memoria que contiene \textbf{caulds}
+    \item Linea 8: Llamada dinámica a la función \texttt{VirtualProtect} en el DLL \texttt{kernel32.dll}. Esta función permite cambiar la protección de una zona de memoria, que el malware usa para dar permisos 0x64 a la zona donde se encuentra alojada \textbf{caulds}. Consultando la documentación de Windows, vemos que este código corresponde a los permisos de ejecución, lectura y escritura.
+    \item Linea 9: Finalmente, ejecuta otra llamada dinámica a la función \texttt{CallWindowProc} sobre el espacio de memoria creado, con un offset de 9264 bytes
+\end{itemize}
+
+Ahora que sabemos lo que el script llega a cabo, podemos pasar al siguiente punto de ejecución del malware. IDA en su versión gratuita, por desgracia, no permite el análisis de cualquier archivo binario, por lo que, para facilitar el análisis, vamos a realizar algunos pasos intermedios.\\\\
+
+Primero haremos uso del script creado anteriormente para traducir los valores y modificado ligeramente para traducir el archivo \textbf{caulds}. Esto genera un archivo de texto plano que contiene una cadena de valores hexadecimales. Para transformarlo en un ejecutable, usamos un editor de archivos hexadecimal para importar esta cadena de valores directamente como datos hexadecimales\ref{fig:hexedit}.\\\\ 
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=\textwidth]{imagenes/hexedit.PNG}
+	\caption{Editor hexadecimal online HexEd.it}
+	\label{fig:hexedit}
+\end{figure}
+
+Usamos una herramienta para convertir este archivo de shellcode en un ejecutable exe ya empaquetado. La utilidad \textbf{shcode2exe.py} es de código abierto y realiza esta conversión automáticamente con una simple llamada por consola\ref{fig:shcode2exe.py}.\\\\
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=\textwidth]{imagenes/Shcode2exe.PNG}
+	\caption{shcode2exe.py}
+	\label{fig:shcode2exe.py}
+\end{figure}
+
+Una vez hemos obtenido el shellcode en forma de ejecutable empaquetado, podemos cargarlo en IDA Free y analizar su funcionamiento en la herramienta. Podemos volver a cargar el grafo de llamadas a funciones y comprobar cómo ahora el código parece mucho más simple\ref{fig:cauldsFunciones}.\\\\
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=\textwidth]{imagenes/CauldsFunciones.PNG}
+	\caption{Grafo de llamadas a funciones de caulds}
+	\label{fig:cauldsFunciones}
+\end{figure}
+Aunque, más allá de la función \textbf{start}, la cual ni siquiera es realmente el punto de comienzo de ejecución como sabemos por la llamada a la función del script, que introduce un offset, IDA no es capaz de identificar qué es lo que hace ninguna de las funciones y queda como tare nuestra analizar y documentar el programa. (Las funciones con nombres que se ven en la captura ya han sido identificadas manualmente en el momento de la captura, aunque inicialmente ninguna era reconocida).\\\\
+Comenzamos por saltar al offset donde comienza la ejecución cuando es llamado por el script en consola, y marcamos la posición en IDA para futuras referencias y facilitar la documentación del análisis. En este punto podemos ver como el programa almacena en memoria, con direcciones calculadas dinámicamente, una serie de valores que IDA detecta como posibles valores ascii, una cadena cuyo propósito desconocemos\ref{fig:cauldsStart}, y la cadena \textbf{silvexes}\ref{fig:cauldsStart2}, que recordaremos como el nombre del otro archivo que obtuvimos al descompilar el ejecutable original. Tras almacenar estos datos, salta a la función start donde comenzaría la ejecución normalmente.\\\\
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=7cm]{imagenes/CauldsStart.PNG}
+	\caption{Comienzo del código desensamblado}
+	\label{fig:cauldsStart}
+\end{figure}
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=7cm]{imagenes/CauldsStart2.PNG}
+	\caption{Comienzo del código desensamblado 2 }
+	\label{fig:cauldsStart2}
+\end{figure}
+
+Desde este punto, continúa guardando en memoria cadenas de texto, en este caso, el nombre de varios archivos de dll\ref{fig:cauldsStart3} y, después, varios valores arbitrarios hexadecimales\ref{fig:cauldsStart4}.\\\\
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=7cm]{imagenes/CauldsStart3.PNG}
+	\caption{Comienzo del código desensamblado 3}
+	\label{fig:cauldsStart3}
+\end{figure}
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=7cm]{imagenes/CauldsStart4.PNG}
+	\caption{Comienzo del código desensamblado 4 }
+	\label{fig:cauldsStart4}
+\end{figure}
+
+A partir de este punto y debido al uso de memoria dinámica, el análisis estático es complicado, por lo que creamos una máquina virtual, con Windows aislada de la red, y procedemos a debuggear el programa y continuar su análisis dinámico. A medida que se reconozca la funcionalidad de las diversas subrutinas y variables, se irán nombrando para hacer el código mucho más legible.\\\\
+
+Nos aseguramos de colocar un breakpoint al comienzo de la ejecución del programa y, al iniciarlo, saltamos al offset marcado anteriormente. Hacemos click derecho en esta instrucción y escogemos la opción "Set IP". Esto sobrescribirá el contenido del Instruction Pointer a esta dirección y podremos simular la ejecución del programa como si se tratase de la llamada del script comenzando en este punto. Podemos tomar nota de las posiciones donde se guardan las cadenas ya vistas para seguirlas en la vista hexadecimal de IDA\ref{fig:cauldsHexView1}.\\\\
+
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=\textwidth]{imagenes/CauldsHexView1.PNG}
+	\caption{Vista hexadecimal }
+	\label{fig:cauldsHexView1}
+\end{figure}
+
+
+Al continuar la ejecución del programa, se llama a una subrutina donde podemos notar una línea interesante: El programa accede al registro fs, en concreto a fs:30h\ref{fig:cauldsTIB1}. Este es un registro propio de Windows que contiene un puntero que señala a un struct de información del sistema de archivos, el Thread Information Block. En el desplazamiento especificado se encuentra la dirección al Process Enviroment Block. Después de esto, el programa carga la dirección donde almacenó la cadena \textit{kernel32.dll}, y llama a una nueva subrutina.\\\\
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=\textwidth]{imagenes/CauldsTIB1.png}
+	\caption{Función GetTIBInfo }
+	\label{fig:cauldsTIB1}
+\end{figure}
+
+En esta nueva subrutina, la dirección del PEB se carga en la pila, y podemos ver su contenido en la vista hexadecimal\ref{fig:cauldsTIB4}, que contiene el nombre de la aplicación siendo ejecutado en el proceso actual como primer dato. Después de esto, se hace una llamada a otra subrutina más sencilla y sin otras llamadas, que al ver en ejecución, podemos identificar como un contador de caracteres. La función toma la dirección en el registro ECX y cuenta carácter por carácter hasta encontrar un valor 0000h\ref{fig:cauldsTIB5}. De esta forma, podemos identificar y nombrar a la primera subrutina del programa y cambiarle el nombre en IDA a \textbf{CharCounter}. En esta primera llamada, vemos que ha contado los caracteres del nombre del archivo en ejecución, \textbf{caulds.exe}.\\\\
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=\textwidth]{imagenes/CauldsTIB4.png}
+	\caption{Contenido del PEB }
+	\label{fig:cauldsTIB4}
+\end{figure}
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=\textwidth]{imagenes/CauldsTIB5.png}
+	\caption{Función CharCounter}
+	\label{fig:cauldsTIB5}
+\end{figure}
+
+Después de esto, el programa vuelve a llamar a la función CharCounter, esta vez pasando como argumento la cadena \textit{kernel32.dll}\ref{fig:cauldsTIB3}. Después de esto compara el número de caracteres leídos. La ejecución vuelve a la subrutina anterior después de la comparación, devolviendo un resultado u otro dependiendo del resultado. Podemos identificar que lo que hace esta subrutina es comparar cadenas y la etiquetamos como tal en IDA.\\\\
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=\textwidth]{imagenes/CauldsTIB3.png}
+	\caption{Función NameComparator }
+	\label{fig:cauldsTIB3}
+\end{figure}
+
+Después de esto, la subrutina avanza el puntero que señalaba al PEB. Si consultamos la documentación del PEB podemos ver que el siguiente campo es un puntero que señala a la dirección base de ciertos módulos cargados en el proceso, concretamente la dirección del kernel32.dll y del ntdl.dll. Al realizar el bucle de nuevo, esta vez el comparador da un resultado positivo al encontrar el archivo kernel32.dll, y la ejecución de la subrutina finaliza entendiendo así el objetivo de esta función: Obtener la ruta del kernel32.dll desde la información del bloque de procesos. Procedemos a nombrar esta función y documentar con comentarios esta función.\\\\
+
+La función devuelve un resultado positivo que la ejecución principal del programa comprueba antes de resumir la ejecución principal. La siguiente llamada que encontramos parece operar sobre los datos hexadecimales almacenados en memoria que vimos al comienzo\ref{fig:cauldsStart4}, a medida que continua avanzando el puntero que señala a la librería kernel32.dll. Esta función incluye una llamada a otra subrutina donde se puede reconocer una estructura parecida a un encriptado XOR\ref{fig:cauldsAcquireFunction2}. Los datos que se manipulan en esta subrutina no parecen volver a ser usados de nuevo a lo largo del programa, sin embargo, si seguimos el puntero que apuntaba al kernel32.dll, y que ha sido desplazado en función de los resultados intermedios de la operaciones realizadas, podemos ver que cuando el bucle acaba al obtener el resultado hardcodeado en otra posición,el puntero coincide con la posición de una función en concreto de la librería de kernel32.dll, la cual es almacenada en la pila antes de repetir el bucle con el dato siguiente. Esto se repite un total de 37 veces, almacenando en la pila las posiciones de una función distinta de la librería cada vez. El malware hace uso de este método para esconder las posibles llamadas a las funciones de manera dinámica, haciendo casi imposible y definitivamente tedioso el analizar estaticamente su funcionamiento. Tenemos así identificada una función más , y podemos iterar a medida que obtiene las posiciones de las distintas funciones para continuar el analisis.
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=\textwidth]{imagenes/cauldsAcquireFunction2.PNG}
+	\caption{Función XORDecrypt }
+	\label{fig:cauldsAcquireFunction2}
+\end{figure}
+
+Una vez se han almacenado todas las direcciones a las funciones que busca, procede a realizar una llamada a una de las direcciones almacenadas, la que podemos identificar en la vista de la pila como \texttt{LoadLibraryW}\ref{fig:cauldsAcquireFunction4}. El programa carga en la pila los argumentos necesarios para llamar a esta función y cargar la librería kernel32.dll\\\\
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=\textwidth]{imagenes/cauldsAcquireFunction4.PNG}
+	\caption{Vista de la pila con las funciones almacenadas }
+	\label{fig:cauldsAcquireFunction4}
+\end{figure}
+
+El programa repite una estructura similar con el resto de datos para las otras librerías DLL almacenadas como cadenas al comienzo del programa, adquiriendo la posición de múltiples funciones, almacenándolas en pila y cargando sus respectivas librerías. Una vez ha acabado de cargar funciones y librerías la ejecución vuelve al punto del offset donde se llama a la función start\ref{fig:AfterStart}\\\\. 
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=\textwidth]{imagenes/CauldsAfterStart.PNG}
+	\caption{Ejecución del programa después de la sección start }
+	\label{fig:AfterStart}
+\end{figure}
+
+Como se puede ver en el ejemplo, a menudo se desplaza y mueve la posición de las funciones en la pila, de nuevo para dificultar el seguimiento de la ejecución del programa. La siguiente llamada a una subrutina que se realiza ya hace uso de las llamadas a las funciones. Deteniendo la ejecución del programa podemos ver a que funciones esta llamando en cada momento como se ve en la subrutina siguiente\ref{fig:sleepTick}.\\
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=\textwidth]{imagenes/cauldsSleepTick.PNG}
+	\caption{Subrutina SleepAndGetTickCount}
+	\label{fig:sleepTick}
+\end{figure}
+
+Esta función llama a las funciones \texttt{Sleep} y \texttt{GetTickCount}. La intención de esta función es actuar como técnica anti análisis automático. En entornos de sandboxes automáticos, dormir al programa puede llevar a veces a la terminación del programa. La función \texttt{GetTickCount} por otra parte obtiene el tiempo que el ordenador ha estado encendido. Si el tiempo es muy bajo el programa termina la ejecución y se cierra.\\
+
+Las siguientes llamadas\ref{fig:cauldsPath} son a las funciones \texttt{getPathTempW}, \texttt{combinePathW} y \texttt{createFileW}. Estas funciones obtienen la ruta del directorio temporal del usuario, combina la cadena de la ruta con la cadena \textbf{silvexes} que se almaceno al comienzo de la ejecución, y abre el archivo en esa ruta, indicando los flags necesarios para que el archivo tengo permisos de lectura, escritura, ejecución y que la escritura no pase por una cache intermedia si no que sea directamente al disco.\\
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=\textwidth]{imagenes/CauldsPath.PNG}
+	\caption{Apertura del archivo silvexes}
+	\label{fig:cauldsPath}
+\end{figure}
+
+Una vez abierto y obtenido el handle del archivo, llama las funciones \texttt{GetFileSizeW} para obtener el tamaño del archivo \textbf{silvexes}, \texttt{VirtualAlloc} para reservar memoria virtual igual a su tamaño, y \texttt{ReadFile} para cargar el contenido de \textbf{silvexes} en dicho espacio\ref{fig:cauldsSilvexes}.\\
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=\textwidth]{imagenes/cauldsSilvexes.PNG}
+	\caption{Lectura de silvexes}
+	\label{fig:cauldsSilvexes}
+\end{figure}
+
+Con silvexes en memoria virtual, el programa llama de nuevo a otra subrutina sin identificar. Esta rutina comienza por almacenar las cadenas \textit{.exe}, \textit{incalculability} y \textit{prophetess}, antes de llamar a otra pequeña subrutina de funcionamiento sencillo: Rellenar un numero determinado de bytes con el valor introducido a partir de la posición de memoria especificada\ref{fig:cauldsZerofier}. En la práctica, se usara exclusivamente para rellenar de caracteres 0 posiciones de memoria para manipular cadenas de caracteres.\\
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=\textwidth]{imagenes/cauldsZerofier.PNG}
+	\caption{Código del zerofier}
+	\label{fig:cauldsZerofier}
+\end{figure}
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=\textwidth]{imagenes/CauldsProphetess1.PNG}
+	\caption{Código de la función Prophetess}
+	\label{fig:cauldsProphetess}
+\end{figure}
+
+Tras poner a 0 un espacio en concreto de memoria, llama a la función \texttt{ShGetFolderPathW}, una función ya obsoleta que devuelve la ruta de diversas carpetas del sistema según in identificador de CSIDL. En este caso introduce el identificador para la carpeta \texttt{AppData/Local}. Después llama a la función \texttt{pathCombine} y lo combina con la cadena \texttt{incalculability}.\\
+
+Seguidamente viene una serie de operaciones lógicas y funciones para comprobar si existe la carpeta \texttt{incalculability} en la ruta, y dentro de la misma el archivo el archivo \texttt{prophetesses.exe}. El programa crea la carpeta si no existe ya, y si el archivo \texttt{prophetesses.exe} no existe, entra en otra subrutina.\\
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=\textwidth]{imagenes/CauldsProphetess2.PNG}
+	\caption{Código de la función Prophetess 2}
+	\label{fig:cauldsProphetess2}
+\end{figure}
+
+La creación del programa \textbf{Prohetesses.exe} se realiza creando una copia del propio programa \textbf{caulds} en ejecución\ref{fig:cauldsProphetess3}, creando un volcado del archivo y modificando su nombre y permisos en la carpeta de AppData\ref{fig:cauldsProphetess4}. Si el archivo ha sido creado, el malware se abre asi mismo desde este nuevo archivo, y luego se cierra. En la nueva ejecución, al comprobar que ya existe continuara con la ejecución.\\\\
+Una vez se ha comprobado que el archivo existe, el programa llama a otra subrutina que realiza una tarea parecida, esta vez comprobando y creando en caso de que no exista el archivo \texttt{prophetesses.vbs} de manera similar a la anterior, esta vez en el directorio \texttt{Start menu/Programs/Startup}, que contiene una colección de programas que se deben ejecutar al inicio del sistema. En este archivo de extensión de Visual Basic escribe lo siguiente: \\
+
+
+\lstinputlisting[
+    caption=Propthess.vbs,
+    label={lst:prophetess.vbs},
+    language={[Visual]Basic}]
+    {codigo/prophetesses.vbs}
+
+Este sencillo código, como es fácil de imaginar, crea una consola de comandos sin mostrar nada por pantalla y ejecuta el archivo .exe creado anteriormente.\\
+
+
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=\textwidth]{imagenes/CauldsProphetess3.PNG}
+	\caption{Código de la función Prophetess 3}
+	\label{fig:cauldsProphetess3}
+\end{figure}
+
+
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=\textwidth]{imagenes/CauldsProphetess4.PNG}
+	\caption{Código de la función Prophetess 4}
+	\label{fig:cauldsProphetess4}
+\end{figure}
+
+Esto finaliza el conjunto de subrutinas dedicadas a crear una copia de si mismo y obtener persistencia, y continuamos con la ejecución del programa a la siguiente subrutina. Esta función toma los datos del archivo \textbf{silvexes} alojados en memoria virtual anteriormente y los pasa por un desencriptado de tipo XOR como los que hemos visto anteriormente, esta vez usando como clave la cadena que se almaceno en memoria al comienzo de la ejecución y cuya utilidad no habíamos identificado hasta ahora.\ref{fig:cauldsDecodeSilvexes}. Como los realizados anteriormente, podemos también crear un pequeño script en python que nos permite desencriptar el archivo nosotros mismo por si es necesario su uso en un futuro.\\
+
+
+\lstinputlisting[
+    caption=SilvexesXORDecoder.py,
+    label={lst:silvexesDecoder},
+    language={[Visual]Basic}]
+    {codigo/SilvexesXORDecoder.py}
+
+Ya solo queda un último conjunto de subrutinas que analizar en el programa principal. Continuamos la ejecución hasta entrar en el y nos encontramos con una nueva subrutina que cumple la misma función que la anteriormente identificada como Zerofier para rellenar bytes de un valor en concreto, que de nuevo solo sera 0\ref{fig:cauldsByteFill}.\\
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=\textwidth]{imagenes/cauldsDecodeSilvexes.PNG}
+	\caption{Código desencriptado de silvexes}
+	\label{fig:cauldsDecodeSilvexes}
+\end{figure}
+
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=\textwidth]{imagenes/CauldsByteFill.PNG}
+	\caption{Código la función ByteFill}
+	\label{fig:cauldsByteFill}
+\end{figure}
+
+Después almacena una serie de rutas en la pila, que hace referencia varios archivos del sistema: dos versiones de regsvcs.exe y una de svchost.exe. La ejecución del programa se trifurca en este punto, cada camino realizando una llamada a \texttt{GetCommandLineW} y \texttt{CreateProcessW}\ref{fig:cauldsNtdll1} para crear un proceso en estado suspendido sobre cada una de las opciones. Sin embargo, y tras ejecutar de nuevo el programa el valor que marca cual de los programas ejecutar, esta hardcodeado y no es producto de ninguna llamada a otra función ni lógica condicional, si no que siempre se sigue la misma ruta de proceso. Siempre se ejecuta la opción de regsvcs.exe en su versión 4.0.30319. Esto puede deberse a una selección de modo a la hora de compilación del malware, o tal vez sea un rastro de versiones anteriores donde se atacaba a un archivo distinto.\\
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=\textwidth]{imagenes/CauldsNtdll1.PNG}
+	\caption{Creación del proceso suspendido}
+	\label{fig:cauldsNtdll1}
+\end{figure}
+
+Después de crear el proceso en estado suspendido sobre regsvcs.exe, se llama a la función \texttt{GetThreadContext} para obtener un struct del contexto del proceso suspendido\ref{fig:cauldsNtdll2}.
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=\textwidth]{imagenes/CauldsNtdll2.PNG}
+	\caption{Obtención del contexto del proceso suspendido}
+	\label{fig:cauldsNtdll2}
+\end{figure}
+
+Acto seguido se leen 4 bytes en una posición concreta del proceso suspendido y se almacena el dato leído\ref{fig:cauldsNtdll3}. Este se usara para determinar cual de las siguientes operaciones continuar ejecutando. La siguiente subrutina comienza por llamar al proceso de start de nuevo\ref{fig:cauldsNtdll4}, con el objetivo de cargar las funciones en la pila de nuevo. Después se llama a una subrutina más sencilla que llama a la función \texttt{IsWow64process} para comprobar si el proceso actual se esta ejecutando en Windows32 On Windows64\ref{fig:cauldsNtdll5}.\\\\
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=\textwidth]{imagenes/CauldsNtdll3.PNG}
+	\caption{Lectura del proceso suspendido}
+	\label{fig:cauldsNtdll3}
+\end{figure}
+
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=\textwidth]{imagenes/CauldsNtdll4.PNG}
+	\caption{Función AcquireNtdll}
+	\label{fig:cauldsNtdll4}
+\end{figure}
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=\textwidth]{imagenes/CauldsNtdll5.PNG}
+	\caption{Función IsWoW64}
+	\label{fig:cauldsNtdll5}
+\end{figure}
+
+La siguiente subrutina empieza cargando la cadena \textit{ndtll.dll}\ref{fig:cauldsNtdll6} en la pila, antes de volver a cargar las librerías y funciones llamando a la rutina de start de nuevo. Una nueva subrutina que hemos llamado \texttt{ObtenerRutaNtdll} hace uso de una estructura similar a la usada en la rutina start para obtener la ruda de la librería ntdll.dll\ref{fig:cauldsNtdll7}.\\
+
+
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=\textwidth]{imagenes/CauldsNtdll6.PNG}
+	\caption{Función AcquireNtdll 2}
+	\label{fig:cauldsNtdll6}
+\end{figure}
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=\textwidth]{imagenes/CauldsNtdll7.PNG}
+	\caption{Función ObtenerRutaNDll.dll}
+	\label{fig:cauldsNtdll7}
+\end{figure}
+
+La ejecución de esta subrutina continua abriendo el archivo ntdll.dll, obteniendo su tamaño, reservando memoria virtual y leyendo el contenido de la librería en la memoria virtual reservada\ref{fig:cauldsNtdll8}. Una vez tenemos el contenido del fichero en memoria virtual, se reserva otro espacio de memoria arbitrariamente mayor que el de ntdll.dll\ref{fig:cauldsNtdll9}.\\
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=\textwidth]{imagenes/CauldsNtdll8.PNG}
+	\caption{Función AcquireNtdll 3}
+	\label{fig:cauldsNtdll8}
+\end{figure}
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=\textwidth]{imagenes/CauldsNtdll9.PNG}
+	\caption{Función AcquireNtdll 4}
+	\label{fig:cauldsNtdll9}
+\end{figure}
+
+Se copian los primeros 400 bytes del espacio en memoria virtual que contenían a ntdll.dll al nuevo espacio mediante una sencilla subrutina de copia de datos\ref{fig:cauldsNtdll10}, después se continua con el resto del archivo, dejando varios cientos de bytes vacíos de por medio. Esto se repite hasta copiar el contenido de ntdll.dll totalmente\ref{fig:cauldsNtdll11}.\\\\
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=\textwidth]{imagenes/CauldsNtdll10.PNG}
+	\caption{Función CopyData}
+	\label{fig:cauldsNtdll10}
+\end{figure}
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=\textwidth]{imagenes/CauldsNtdll11.PNG}
+	\caption{Función AcquireNtdll 5}
+	\label{fig:cauldsNtdll11}
+\end{figure}
+
+Una vez todo el contenido de ntdll.ll ha sido copiado, se vuelve a hacer uso de la función para adquirir la posición de una función dentro de un dll basándose en los valores encriptados al comienzo de la ejecución del programa, pero esta vez lo que se obtiene es una posición arbitraria dentro del archivo ntdll.dll. Finalmente se cierra el handle al archivo ntdll.dll y se liberal el espacio en memoria reservado para la copia sin huecos vacíos\ref{fig:cauldsNtdll12}.\\\\
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=\textwidth]{imagenes/CauldsNtdll12.PNG}
+	\caption{Función AcquireNtdll 6}
+	\label{fig:cauldsNtdll12}
+\end{figure}
+
+
+Los huecos que han quedado vacíos se rellenan con el código desencriptado del archivo \textbf{silvexes}, insertando código externo en las funciones de la librería ntdll.dll\ref{fig:cauldsNtdll14}, tras lo cual se llama a la función \texttt{SetThreadContext}, que intercambia el contexto del proceso que estaba ejecutando regsvcs.exe por el del ntdll.dll modificado cargado ya en memoria virtual y arrancando el proceso\ref{fig:cauldsNtdll13}.\\\\
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=\textwidth]{imagenes/CauldsNtdll14.PNG}
+	\caption{Función AcquireNtdll 7}
+	\label{fig:cauldsNtdll14}
+\end{figure}
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=\textwidth]{imagenes/CauldsNtdll13.PNG}
+	\caption{Función AcquireNtdll 8}
+	\label{fig:cauldsNtdll13}
+\end{figure}
+
+
+Una vez llegados a este punto, el desarrollador del malware puede ejecutar el código que desee y que haya cargado en los archivos binarios insertados en el dll. Al cargarse directamente en memoria virtual, el malware ni siquiera deja un archivo de dll modificado, lo que dificulta aún más su detección. Para finalizar el análisis de este malware vamos a hacer uso de la herramienta ANY.RUN, ejecutando el malware en uno de sus sandboxes para estudiar los informes que produce.\\\\ 
+
+Como podemos ver, el malware es detectado inmediatamente\ref{fig:SnakeAnyrun1}. Aparecen listadas todas las fases del malware que hemos visto, desde que se abre como el ejecutable inicial, a la creación y copia de si mismo y finalmente a la suplantación del archivo regsvcs.exe.\\
+En la ventana de conexiones\ref{fig:SnakeAnyrun2} vienen listadas todas las conexiones realizadas desde que se ha iniciado el equipo, podemos ver que el proceso regsvcs.exe ha hecho una llamada http a un servicio de obtención de IP externa y se ha comunicado mediante una api de Telegram con lo que seguramente sera el servidor C2C.\\
+Se incluye también un listado de todos los archivos creados durante la ejecución del malware\ref{fig:SnakeAnyrun3}. Aqui aparecen los archivos temporales \textbf{caulds} y \textbf{silvexes} que hemos analizado, el archivo .exe y el .vbs además del otros archivos temporales propios de AutoIt, probablemente creados en el proceso de interpretación del programa. Cabe destacar que no aparece nada sobre ntdll.dll pues, como hemos visto, se modifica en memoria virtual y no deja rastro de creación de archivos.\\
+En la ventana del proceso regsvcs.exe\ref{fig:SnakeAnyrun4} podemos observar la información especifica de este proceso. Como se puede ver, se ha detectado una regla YARA sobre el proceso, mecanismos de robo de datos personales y credenciales de aplicaciones web instaladas. Podemos acceder a información más detallada, como por ejemplo, las manipulaciones de claves de registro\ref{fig:SnakeAnyrun5}. Desde la ventana del proceso podemos además descargar el volcado de memoria del proceso que, si analizamos manualmente veremos que se correspondo con el archivo ntdll.dll modificado con el contenido del archivo \textbf{silvexes}.
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=\textwidth]{imagenes/SnakeAnyrun1.PNG}
+	\caption{Informe de ANY.RUN 1}
+	\label{fig:SnakeAnyrun1}
+\end{figure}
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=\textwidth]{imagenes/SnakeAnyrun2.PNG}
+	\caption{Informe de ANY.RUN 2}
+	\label{fig:SnakeAnyrun2}
+\end{figure}
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=\textwidth]{imagenes/SnakeAnyrun3.PNG}
+	\caption{Informe de ANY.RUN 3}
+	\label{fig:SnakeAnyrun3}
+\end{figure}
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=\textwidth]{imagenes/SnakeAnyrun4.PNG}
+	\caption{Informe de ANY.RUN 4}
+	\label{fig:SnakeAnyrun4}
+\end{figure}
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=\textwidth]{imagenes/SnakeAnyrun5.PNG}
+	\caption{Informe de ANY.RUN 5}
+	\label{fig:SnakeAnyrun5}
+\end{figure}
+
